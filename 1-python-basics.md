@@ -135,7 +135,11 @@ Finally, you can compare two objects in several ways.
 
 You can also chain multiple comparators together and they are combined using `and`. For example,
 
+* `a > b > c` means `(a > b) and (b > c)`
+* `a < b > c` means `(a < b) and (b > c)`
 * `a == b > c != d` means `(a == b) and (b > c) and (c != d)`
+
+Many of the above examples that involve chaining operators can be confusing to read, so you should try to avoid them when possible. For example, it's probably cleaner to write `(a < b) and (b > c)` instead of `a < b > c`. When in doubt, just use your best judgement!
 
 Here are some examples of comparing numbers in Python:
 
