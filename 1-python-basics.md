@@ -9,14 +9,14 @@ The interactive interpreter is one way to execute Python code. Once you've insta
 <li> Open the Terminal and start the interactive interpreter in it. On Windows, you can access this by clicking Start, typing "cmd" into the search box, and clicking on "Command Prompt". On Mac, the Terminal application is in Applications > Utilities > Terminal. You should be greeted with a blinking cursor in front of a dollar sign. Type <code>py</code> if you're on Windows or <code>python3</code> if you're on Mac. The screen should look like:
 
 <p align="center">
-  <img height="300" alt="A terminal screen with text that appears from starting the interactive interpreter." src="img/1/mac-interpreter.png" /><br />
+  <img height="350" alt="A terminal screen with text that appears from starting the interactive interpreter." src="img/1/mac-interpreter.png" /><br />
   <i>The interactive interpreter in a terminal on my Mac computer.</i>
 </p>
 </li>
 <li> We can also run the interactive interpreter through VS Code. Open VS Code and go to the menu. On Windows, click View > Terminal and on Mac click Terminal > New Terminal. A terminal should appear at the bottom of the screen. Type in <code>py</code> on Windows or <code>python3</code> on Mac.
 
 <p align="center">
-  <img height="300" alt="A VS Code with a terminal at the bottom containing text that appears from starting the interactive interpreter." src="img/1/vscode-interpreter.png" /><br />
+  <img height="350" alt="A VS Code with a terminal at the bottom containing text that appears from starting the interactive interpreter." src="img/1/vscode-interpreter.png" /><br />
   <i>The interactive interpreter in VS Code on my Mac computer.</i>
 </p>
 </li>
@@ -32,7 +32,7 @@ You can type any Python code into the interactive interpreter and it will execut
 After the `>>>` sign, you can type any Python code, press enter, and it'll get executed. The interpreter will display the result of the code on the line below where you typed it in. For example,
 
 <p align="center">
-  <img height="300" alt="The interactive interpreter showing that 33 + 8 is 41." src="img/1/mac-interpreter-add.png" /><br />
+  <img height="350" alt="The interactive interpreter showing that 33 + 8 is 41." src="img/1/mac-interpreter-add.png" /><br />
   <i>You can add numbers in Python and in the interactive interpreter!</i>
 </p>
 
