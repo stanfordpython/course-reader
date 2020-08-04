@@ -43,7 +43,7 @@ In other languages like Java and C++, you need to tell the language a variable's
 int x = 41;
 ```
 
-The keyword `int` in the above line tells the compiler that `x` will hold an integer. It would be illegal to try to assign `x = "Hello world"` because `x` can only hold an integer for its entire lifetime.
+The keyword `int` in the above line tells the compiler that `x` will hold an integer. It would be illegal to reassign `x = "Hello world"` because `x` can only hold an integer for its entire lifetime.
 
 That's not true in Python. Variables are just references to objects and the type information is stored on the object. In practical terms, this means that a variable can be reassigned from one object to another even if those objects have different types. Consequently, you don't need to say what the type of a variable will be when its declared in Python.
 
