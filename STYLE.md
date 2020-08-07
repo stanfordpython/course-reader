@@ -18,3 +18,7 @@ One exception is that, because this is a course about Python, we're often sugges
 These notes are not a guide on how to use Python so they should generally avoid walking the reader through an implementation. That will happen in class. Instead, these notes will should explain Python's language design and philosophy.
 
 Think "this is how Python does X" instead of "here's how to do X in Python."
+
+## Accessibility
+These notes should be written to be friendly to people using assistive technologies to access the website. In particular, make sure that the notes make sense read aloud. Introduce code blocks and images with signpost language like "The image below depicts..." or "In Python, it's valid to write...".
+
