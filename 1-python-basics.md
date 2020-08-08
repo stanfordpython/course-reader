@@ -139,7 +139,7 @@ You can also chain multiple comparators together and they are combined using `an
 * `a < b > c` means `(a < b) and (b > c)`
 * `a == b > c != d` means `(a == b) and (b > c) and (c != d)`
 
-Many of the above examples that involve chaining operators can be confusing to read, so you should try to avoid them when possible. For example, it's probably cleaner to write `(a < b) and (b > c)` instead of `a < b > c`. When in doubt, just use your best judgement!
+Many of the above examples that involve chaining operators can be confusing to read, so you should try to avoid them when possible. For example, it's probably cleaner to write `(a < b) and (b > c)` instead of `a < b > c`. 
 
 Here are some examples of comparing numbers in Python:
 
@@ -152,8 +152,138 @@ Here are some examples of comparing numbers in Python:
 ```
 
 ## Strings and Lists
-## String Formatting
+### Strings
+#### Delimiters
+In Python, a sequence of characters between a pair of double quotes (`"..."`) or single quotes (`'...'`) is a string. Unlike other languages, Python doesn't distinguish between strings of length one (`char`s in Java and C++) and longer strings.
+
+Use a backslash to escape characters within a string. For example,
+
+```python
+'If you hadn\'t nailed it to the perch, it\'d be pushing up the daisies!'
+"Palin made a good point: \"Nobody expects the Spanish Inquisition\""
+'"Life\'s like a movie. Write your own ending." - Kermit the Frog'
+```
+
+There's no stylistic preference in Python about using double quotes or single quotes – just use whichever is most convenient!
+
+#### Operations
+There are two string operations that are commonly used in Python: adding strings together, which concatenates them, and multiplying a string by an integer, which repeats the string that many times.
+
+For example,
+
+```python
+"Unicorns are " + "the best" # => 'Unicorns are the best'
+"I love unicorns! " * 3      # => 'I love unicorns! I love unicorns! I love unicorns! '
+```
+
+#### String Indexing
+In Python, like most other languages, you can access the `i`th character of a string `s` with `s[i]`. Python is also zero-indexed, meaning that `s[0]` is the first character of `s`.
+
+For example,
+
+```python
+course = "hap.py code"
+course[2] # => 'p'
+```
+
+#### Slicing
+You can do more with brackets in Python! The bracket notation is used for string slicing, which allows you to pull out subsets of the string. If you take a string `s`, and write `s[start:stop:step]` where `start`, `stop`, and `step` are integers, that will evaluate as a "slice" of `s` that starts at index `start`, ends at index `stop`, and steps by the value of `step`. `step` is an optional parameter.
+
+That's a bit confusing, so let's continue the above example to see how this works:
+
+```python
+course[1:3]   # => 'ap'
+course[1:8]   # => 'ap.py c'
+course[1:8:2] # => 'a.yc'
+```
+
+There are a few things to note about the slice notation.
+
+1. String slices include the start index and exclude the stop index. In the above example, `course[1:3]` includes `course[1]` (`'a'`) and `course[2]` (`'p'`) but does not include `course[3]` (`'.'`). This is designed so that the number of characters returned is `stop - start`.
+2. The step size tells Python to skip characters in the string. A step size of `2` means that Python will put every other character in the string slice, a step size of `3` means that Python will put every third character in the string slice, etc.
+
+Additionally, the step size in a slice can be negative! When you slice with a negative step, you need to reverse the start and end indices of the slice because the slice will start at the later index, work backwards, and end at the earlier index. However, Python will still include the character at the start index. This means that `course[1:8]` is not the reverse of `course[8:1:-1]` because the second string includes the `course[8]` but the first string does not. For example,
+
+```python
+course[8:1:-1] # => 'oc yp.p'
+```
+
+Finally, if you omit any of the indices, but leave the colons and specify others, Python will try to guess what you mean. If you omit the start or end index, Python will slice as far as possible in that direction. If you omit the step size, Python will interpret that as one.
+
+```python
+course[:3]    # => 'hap'
+course[5:]    # => 'y code'
+course[5::-1] # => 'yp.pah'
+```
+
+To be explicit, `course[5::-1]` tells Python to start at the fifth character (the "y" at the end of "hap.py") and step by negative one. Python includes that "y" and steps backwards to the beginning of the string.
+
+This gives a really nice way to reverse a string:
+
+```python
+course[::-1] # => 'edoc yp.pah'
+```
+
+### Lists
+Lists are Python's version of Java's `ArrayList` or C++'s `vector`. They're ordered collections of objects.
+
+You declare a list using square brackets (`[]`) with optional items inside. For example,
+
+```python
+empty = []
+letters = ["a", "b", "c"]
+numbers = [1, 2, 3]
+```
+
+Lists can contain elements of different types (even other lists!). For example,
+
+```python
+many_types = ["a", 2, 3, [4, 5]]
+```
+
+#### Operations
+The most common operations that are performed on a list are appending and extending a list.
+
+Appending to a list allows you to add a single element to the end of the list. To continue the previous example,
+
+```python
+numbers.append(4)
+numbers # => [1, 2, 3, 4]
+```
+
+Extending a list allows you to add several elements to the end of the list.
+
+```python
+numbers.extend([5, 6, 7, 8])
+numbers # => [1, 2, 3, 4, 5, 6, 7, 8]
+```
+
+Note that when you extend a list, you have to provide a collection of numbers to add on.
+
+## Queries on Collections
+Strings and lists are both collections: strings are collections of characters and lists are collections of arbitrary objects. There are a few operations that will show up repeatedly in Python world which apply to collections.
+
+First, you can get the number of elements in a collection using the `len` function. For strings, this is the number of characters. For lists, this is the number of elements in the list.
+
+```python
+len([])                 # => 0
+len("CS41")             # => 4
+len([1, 2, 3, "Parth"]) # => 4
+```
+
+You can also check if a specific element is in your collection using the `in` keyword. This checks if a string is a subset of another string or if an object is in a list.
+
+```python
+0 in [2, 3, 4]           # => False                         
+"5" in [3, 4, 5, "CS41"] # => False
+"tho" in "Python"        # => True
+```
+
 ## Control Flow
+
+## String Formatting
+Imagine if you wanted to insert the value of a variable into a string. Maybe you'd like to print out the value of a number with some words.
+
 ## Loops
 ## Functions
 > With 🦄s by @psarin and @coopermj

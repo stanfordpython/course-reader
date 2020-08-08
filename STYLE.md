@@ -1,4 +1,22 @@
 # Contribution Guide
+## Explanations in Code
+When possible, avoid writing commented explanations in code blocks and, instead, explain them in text and add the code block afterwards.
+
+**BAD:**
+
+```python
+# Lists can contain elements of different types (even other lists!)
+many_types = ["a", 2, 3, [4, 5]]
+```
+
+**GOOD:**
+
+Lists can contain elements of different types (even other lists!). For example,
+
+```python
+many_types = ["a", 2, 3, [4, 5]]
+```
+
 ## Images
 All images should include alt text and be centered in the screen with a caption. The height should be specified and is generally 350. This can be done in Github with the following HTML code:
 
