@@ -280,10 +280,292 @@ You can also check if a specific element is in your collection using the `in` ke
 ```
 
 ## Control Flow
+Control flow refers to a program's ability to do different things based on the program state or inputs. In Python, this is often implemented with an `if` statement. Here's what that looks like:
+
+```python
+if some_condition:
+	# do something...
+```
+
+In the above example, notice that you don't need parentheses around the condition, we place a colon at the end of the line, and the next line is indented with four spaces. Indentation is very important in Python – where other languages use squiggly braces (`{}`) to denote nesting, Python relies on indentation.
+
+`some_condition` in the above example, will be evaluated as a boolean. For example,
+
+```python
+if 8294 % 3 == 0:
+    print("8294 is divisible by three.")
+```
+
+Here, `8294 % 3 == 0` is a boolean expression, and the if statement will execute if it is true.
+
+You can extend the `if` statement by introducing `elif` and `else`. For example,
+
+```python
+if 8294 % 3 == 0:
+    print("8294 is divisible by three.")
+elif 8294 % 2 == 0:
+    print("8294 is divisible by two but not three.")
+else:
+    print("8294 is neither divisible by two, nor three.")
+```
+
+As the print statements suggest, Python will read an `if/elif/else` block from top to bottom. It first checks the `if` statement, then any `elif` statements in the order they're written, then the `else` statement. Python wil execute the code in the first block whose condition is true and skip the remaining blocks.
+
+### Truthiness and Falsiness
+The condition of an `if` statement does not need to be a boolean expression! It will, however, be interpreted as a boolean value. All objects in Python are truthy or falsy – they behave like `True` or `False` when cast as booleans.
+
+To see what this means, we can use the `bool` function to convert objects into booleans. Zero values and empty data structures are falsy:
+
+```python
+bool(0)   # => False
+bool(0.0) # => False
+bool("")  # => False
+bool([])  # => False
+```
+
+Most other things are truthy:
+
+```python
+bool(42)            # => True
+bool("Sam Redmond") # => True
+bool([1, 2, 3])     # => True
+```
+
+This is most often used to check whether some operation can be performed on a data structure where that operation wouldn't work if the data structure is empty. For example,
+
+```python
+students = []
+
+if students:
+    print(students[0] + " is the first student.")
+else:
+    print("There are no students!")
+```
+
+For this reason, we rarely ever check `if len(collection) == 0:` in Python. It's usually the same as checking `if collection:`.
 
 ## String Formatting
-Imagine if you wanted to insert the value of a variable into a string. Maybe you'd like to print out the value of a number with some words.
+Imagine if you wanted to insert the value of a variable into a string. Maybe you'd like to print out the value of a number with some words. The best way to do this in Python is to create a template string and use the `.format` method. 
+
+In its most basic form you can do this by adding a pair of squiggly braces into a string and listing the arguments you'd like to substitute into the string:
+
+```python
+'{} {} 💜'.format('beautiful', 'unicorn') # => 'beautiful unicorn 💜'
+```
+
+You can write indices inside the squiggly braces and Python will replace them with the corresponding argument.
+
+```python
+'{0} can be {1} {0}, even in summer!'.format('snowmen', 'frozen') 
+# => 'snowmen can be frozen snowmen, even in summer!'
+```
+
+You can also provide placeholders and specify their value in the call to `.format`.
+
+```python
+'{name} loves {food}'.format(name='Michael', food='applesauce')
+# => 'Michael loves applesauce' (he does)
+```
+
+And finally, values passed to `.format` will automatically be converted to strings.
+
+```python
+'{} squared is {}'.format(5, 5**2) # => '5 squared is 25'
+```
+
+In all of the above examples, we've passed explicit strings into the `.format` function but in practice you'd often use variables. For example,
+
+```python
+name = 'Parth'
+fav_animal = 'unicorn'
+
+'{} loves {}s'.format(name, fav_animal) # => 'Parth loves unicorns'
+```
+
+Another option for string formatting that's less supported is to use f-strings. F-strings were introduced in Python 3.6 and because they're are fairly new, we recommend using `.format`. 
+
+An f-string is a string that's declared with the character `f` before the opening quotation. Any value placed inside squiggly braces will be directly evaluated and converted to a string. For example,
+
+```python
+f'5 squared is {5 ** 2}' # => '5 squared is 25'
+
+name = 'Parth'
+fav_animal = 'unicorn'
+f'{name} loves {fav_animal}s' # => 'Parth loves unicorns'
+```
+
+### Style Specifiers
+You can specify padding and numeric specifiers within the a format string as well. For example,
+
+```python
+'{:.1%} of the population loves unicorns'.format(0.9876)
+# => '98.8% of the population loves unicorns'
+
+'{:10}'.format('left')   # => 'left '
+'{:*^12}'.format('CS41') # => '****CS41****'
+```
+
+See <https://pyformat.info/> for a detailed guide to string formatting style specification.
 
 ## Loops
+Like other languages, the two main types of loops in Python are `for` loops and `while` loops.
+
+### `for` loops
+In most other languages, `for` loops are done with an index variable. In C++ for example, you might print out the square numbers from one to ten with the following code:
+
+```cpp
+for (int i = 1; i <= 10; i++) {
+    std::cout << i * i << std::endl;
+}
+```
+
+Python, however, does not support index-based iteration. Instead, a for loop in Python looks roughly like:
+
+```python
+for item in collection:
+    # do something with item
+```
+
+Here, `collection` is some collection of objects (like a string (collection of characters) or a list (collection of arbitrary objects)). We'll make this notion more precise later in the course!
+
+So, for example, here's a fully functional for loop:
+
+```python
+for num in [8, 6, 7, 5, 3, 0, 9]:
+    print(num)
+
+# 8
+# 6
+# 7
+# 5
+# 3
+# 0
+# 9
+```
+
+You can also iterate through the characters of a string:
+
+```python
+for ch in "CS41":
+    print("{} (yeah!)".format(ch))
+
+# C (yeah!)
+# S (yeah!)
+# 4 (yeah!)
+# 1 (yeah!)
+```
+
+#### `range`
+Suppose you'd like to have an index iterate through a sequence of numbers like you might in C++. There is a way to do this in Python – it uses the `range` function.
+
+The `range` function generates a sequence of numbers and it's called as `range(start, stop, step)`. Look familiar? These numbers have the same significance as string slicing! The end and step values are optional, start is included in the range, and stop isn't included in the range.
+
+For example, here's what's generated by a few `range` calls:
+
+```python
+range(3)           # =>  <0, 1, 2>
+range(5, 10)       # =>  <5, 6, 7, 8, 9>
+range(2, 12, 3)    # =>  <2, 5, 8, 11>
+range(-7, -30, -5) # =>  <-7, -12, -17, -22, -27>
+```
+
+And here's how you might use this in a `for` loop:
+
+```python
+for i in range(40, 42):
+    print(i)
+
+# 40
+# 41
+```
+
+### `while` loops
+Like other languages, Python `while` loops instruct your computer to keep repeating a block of code while some condition is true.
+
+Continuing the indentation paradigm, a while loop in Python generally looks like:
+
+```python
+while condition:
+    # do something
+```
+
+For example, we might print the powers of three under 10,000 with the following code:
+
+```python
+n = 1
+while n < 10000:
+    print(n)
+    n *= 3
+
+# 1
+# 3
+# 9
+# 27
+# 81
+# 243
+# 729
+# 2187
+# 6561
+```
+
+### `break` and `continue`
+`break` and `continue` are statements that can be put into loops which instruct the computer to skip some of the code it was going to execute. If Python is running a loop and encounters a `break` statement, it stops executing the loop. If Python encounters a `continue` statement, it proceeds to the next iteration of the loop without executing the rest of the code in the loop.
+
+Here's an example where we cut the execution of a `for` loop short using a `break` statement:
+
+```python
+for i in range(2, 10):
+    if n == 6:
+        break
+    print(n)
+
+# 2
+# 3
+# 4
+# 5
+```
+
+And here's an example of using the `continue` statement to jump to the next iteration of a `for` loop:
+
+```python
+for letter in "UNICORN":
+    if letter in "UN":
+        continue
+    print(letter)
+
+# I
+# C
+# O
+# R
+```
+
 ## Functions
-> With 🦄s by @psarin and @coopermj
+Python uses the `def` keyword to define a function:
+
+```python
+def function_name(param1, param2):
+    # do something
+    return some_value
+```
+
+Let's unpack that definition a bit more:
+
+* `function_name` is the name of the function we're defining. To call this function, you'd invoke it using `function_name(...)`.
+* `param1` and `param2` are two parameters that must be passed into this function. When calling the function, you'd provide those parameters, separated by commas, in the appropriate order, between parentheses. For example, to call the function with `param1` equal to 41 and `param2` equal to 42, we'd write `function_name(41, 42)`.
+* The function will return some value – that means it'll send the value to the place that the function is being called from. To capture the value that a function returns, you can assign it to a variable. For example,
+
+```python
+def add(a, b):
+    return a + b
+
+three_and_five = add(3, 5)
+print(three_and_five)
+
+# 8
+```
+
+In the above example, the `add` function returns the sum of its two parameters and after it is defined, we use it to add three and five. The resulting value (8) is stored in the variable `three_and_five`.
+
+In Python, every function returns some value. If the function doesn't explicitly have a `return` statement, it'll return the value `None` (which is like `nullptr` in C++).
+
+> With love and 🦄s by @psarin and @coopermj
