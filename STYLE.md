@@ -17,6 +17,31 @@ Lists can contain elements of different types (even other lists!). For example,
 many_types = ["a", 2, 3, [4, 5]]
 ```
 
+## Code Output
+The output of code should be denoted with the implication sign after a comment so that the code is valid Python. The hash sign should be separated from the end of the line with a single space unless the expression is part of a longer block in which case the hash signs for each line should be aligned so that the longest expression is separated from the hash sign by one space.
+
+For example,
+
+```python
+expression # => return_val
+
+expression             # => return_val
+longer_expression      # => long_return_val
+really_long_expression # => really_long_return_val
+```
+
+When an expression will result in printed terminal output, this should be written after the expression and a blank line. Each line of output should be commented out with the hash sign at the beginning of the line, a space, and then the terminal output. The implication sign should not be included.
+
+For example
+
+```python
+expression_that_prints_something
+
+# Line 1 of output
+# Line 2 of output
+# Line 3 of output
+```
+
 ## Images
 All images should include alt text and be centered in the screen with a caption. The height should be specified and is generally 350. This can be done in Github with the following HTML code:
 
