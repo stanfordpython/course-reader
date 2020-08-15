@@ -215,7 +215,116 @@ org[1] = ['draco', 'goyle'] # TypeError
 ```
 
 ## Sets
-## Dicts
+Sets are finite, distinct, mutable collections of objects but they are unordered – this is because sets can only contain hashable objects. A set in Python is roughly equivalent to a `HashSet` in Java.
+
+Sets are distinct, meaning that they can't contain multiple copies of the same element (unlike lists and tuples).
+
+Sets are delimited with squiggly brackets (`{}`) and elements of a set are separated with commas. For example,
+
+```python
+students = {'Guido', 'Parth', 'Unicornelius'}
+```
+
+Sets are useful for three main reasons:
+
+1. Membership testing is fast – it's very quick ($O(1)$) to test if an element is in a set.
+2. Eliminating duplicates is easy – if you'd like to remove duplicate elements from a collection of hashable objects, you can put them into a set to quickly and easily remove duplicate entries.
+3. Mathematical set operations – it's really easy to perform mathematical operations on Python sets (like taking the intersection of two sets).
+
+You can create an empty set with the `set` function like so:
+
+```python
+empty_set = set()
+```
+
+You cannot set `empty_set = {}` because that would create an empty dictionary (next section). The `set` function is also used to convert other collections to sets like so:
+
+```python
+set_from_list = set([1, 2, 1, 4, 3])
+set_from_list # => {1, 2, 3, 4}
+```
+
+Many of the previous operations on collections apply to sets as well. You can return the number of elements in a set with `len`, check if an element is in a set with the `in` keyword, and iterate over a set with `for`.
+
+For example,
+
+```python
+basket = {'orange', 'banana', 'pear', 'apple'}
+
+len(basket)           # => 4
+
+'orange' in basket    # => True
+'crabgrass' in basket # => False
+
+for fruit in basket:
+    print(fruit)
+
+# apple
+# banana
+# pear
+# orange 
+```
+
+### Set Methods
+
+To add an element to a set, use the `.add` method. For example,
+
+```python
+letters = set('mississippi')
+letters # => {'i', 'm', 'p', 's'}
+
+letters.add('unicorn')
+letters # => {'i', 'm', 'p', 's', 'unicorn'}
+```
+
+To remove an element, use the `.remove` method. This method will raise a `KeyError` if you ask it to remove something that's not in the set. For example,
+
+```python
+letters.remove('m')
+letters # => {'i', 'p', 's', 'unicorn'}
+```
+
+You can also remove all the elements from a set with the `.clear` method (like `st.clear()`) but this isn't frequently used.
+
+### Mathematical Set Operations
+
+You can perform a lot of mathematical operations on sets which integrate with Python operators. First, let's define:
+
+```python
+a = set('abracadabra') 
+b = set('alacazam')
+
+a # => {'a', 'r', 'b', 'c', 'd'}
+b # => {'a', 'm', 'c', 'l', 'z'}
+```
+
+To take the difference between two sets use the minus (`-`) operator. For example, `a - b` will return the elements that are in `a` but not in `b`:
+
+```python
+a - b # => {'b', 'd', 'r'}
+```
+
+You can take the union of two sets using the pipe (`|`) operator. `a | b` will return a set containing elements that are in `a` or in `b`. In particular,
+
+```python
+a | b # => {'a', 'b', 'c', 'd', 'l', 'm', 'r', 'z'}
+```
+
+And, you can take the intersection of two sets using the ampersand (`&`) operator. `a & b` returns a set with elements that are in `a` and `b`. In particular,
+
+```python
+a & b # => {'a', 'c'}
+```
+
+You can also combine any of these operations with `=` to update the value of `a`. For example, `a |= b` is roughly equivalent to `a = a | b`.
+
+### Mathematical Set Comparisons
+
+The mathematical comparison operators (`<`, `<=`, `>`, `>=`) make sense in the context of sets as well. They test set containment.
+
+That is, `a < b` is `True` if `a` is a subset of `b`. `a <= b` is `True` if `a` is a subset of or equal to `b`. The meanings of `>` and `>=` are reversed.
+
+## Dictionaries
 ## Comprehensions
 ## Advanced Looping
 
