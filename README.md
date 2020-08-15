@@ -1,6 +1,6 @@
 # CS 41 Course Reader
 
-[CS 41: Hap.py Code](https://stanfordpython.com/) is a course offered at Stanford University created by @sredmond and taught by @psarin and @coopermj. This repository contains notes for the topics covered in CS 41.
+[CS 41: Hap.py Code](https://stanfordpython.com/) is a course offered at Stanford University created by @sredmond and taught by [@psarin](https://parthsarin.com/) and [@coopermj](https://michaeljohncooper.com/). This repository contains notes for the topics covered in CS 41.
 
 ## Table of Contents
 1. [Python Basics](1-python-basics.md)
