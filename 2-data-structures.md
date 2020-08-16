@@ -325,7 +325,173 @@ The mathematical comparison operators (`<`, `<=`, `>`, `>=`) make sense in the c
 That is, `a < b` is `True` if `a` is a subset of `b`. `a <= b` is `True` if `a` is a subset of or equal to `b`. The meanings of `>` and `>=` are reversed.
 
 ## Dictionaries
+
+A dictionary is a mutable mapping from keys to values. The keys must be hashable and the values can be arbitrary objects. A Python dictionary is equivalent to a Java `HashTable`.
+
+Dictionaries are declared using squiggly brackets (`{}`) and keys are separated from values using a colon (`:`). For example,
+
+```python
+empty_dict = {}
+phrases_to_num = {"one": 1, "two": 2, "three": 3}
+```
+
+You can access the value associated with a specific key using square brackets. If the key doesn't exist in the dictionary, Python will raise a `KeyError`. For example,
+
+```python
+phrases_to_num['one'] # => 1
+phrases_to_num['six'] # KeyError
+```
+
+To avoid the `KeyError` for values that don't exist, you can use the `.get(key)` method. For example,
+
+```python
+courses = {"CS": [41, 106, 107], "LAW": [4093, 7007]}
+courses.get("CS")   # => [41, 106, 107]
+courses.get("PHIL") # => None
+```
+
+In the context of your dictionary, `None` might not be a reasonable default value, so you can provide a default as the second parameter. For example,
+
+```python
+courses.get("ENGLISH", []) # => []
+```
+
+You can update or add a key to a dictionary using similar notation, except you use the equals sign to add the right hand value into the dictionary.
+
+```python
+phrases_to_num['two'] = 22
+phrases_to_num['six'] = 6
+
+phrases_to_num # => {'one': 1, 'two': 22, 'three': 3, 'six': 6}
+```
+
+You can remove a value from a dictionary using the `del` statement or the `pop` command – the latter will return the value that you just removed. For example,
+
+```python
+del phrases_to_num['six']
+phrases_to_num # => # => {'one': 1, 'two': 22, 'three': 3}
+
+phrases_to_num.pop('three') # => 3
+phrases_to_num              # => {'one': 1, 'two': 22}
+```
+
+If `d` is a dictionary, `d.keys()` is a collection of the dicitonary's keys, `d.values()` is a collection of its values and `d.items()` is a collection of its key, value pairs as tuples. That is,
+
+```python
+d = {"one": 1, "two": 2, "three": 3}
+d.keys()   # => <"one", "two", "three">
+d.values() # => <1, 2, 3>
+d.items()  # => <('one', 1), ('two', 2), ('three', 3)>
+```
+
+It's really common to loop over a dictionary's items and simultaneously use tuple unpacking for very clean syntax:
+
+```python
+for key, value in d.items():
+   print(key, value)
+
+# one 1
+# two 2
+# three 3
+```
+
+Finally, `len(d)` returns the number of keys in `d`.
+
 ## Comprehensions
+
+Comprehensions can "flatten" a `for` loop in Python. A common programming paradigm is to loop over some collection, modify each element, and store the results in another collection. For example, to compute the first ten square numbers, one might:
+
+```python
+squares = []
+
+for x in range(10):
+    squares.append(x * x)
+
+squares # => [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+```
+
+A list comprehension looks has the following syntax:
+
+```python
+[fn(elem) for elem in collection]
+```
+
+The square brackets indicate that we are creating a list, and this list will apply `fn` to `elem`, where `elem` is a loop variable that goes through `collection`. Let's rewrite the above code using this syntax:
+
+```python
+squares = [x * x for x in range(10)]
+```
+
+You can also create set comprehensions and dict comprehensions! Set comprehensions look identical but are delimited by squiggly braces. Dict comprehensions have a key and value in place of `fn(elem)`. For example, we can reverse a dictionary using a dictionary comprehension:
+
+```python
+fav_animals = {
+   'parth': 'unicorn',
+   'michael': 'elephant',
+   'zheng': 'tree',
+   'sam': 'ox',
+   'nick': 'Daisy'
+}
+fav_humans = {val:key for key, val in fav_animals.items()}
+
+fav_humans # => {'unicorn': 'parth', 'elephant': 'michael', 'tree': 'zheng', 'ox': 'sam', 'Daisy': 'nick'}
+```
+
 ## Advanced Looping
+
+### `enumerate`
+
+If you'd like to keep track of the index and the value while looping through a collection, you can use the `enumerate` function and tuple unpacking. To see how this works, let's try to enumerate a collection:
+
+```python
+enumerate(['Parth', 'Michael', 'Unicorn']) # => <(0, 'Parth'), (1, 'Michael'), (2, 'Unicorn')>
+```
+
+Much like `dict.items()`, we can unpack each of the tuples while looping:
+
+```python
+for i, name in enumerate(['Parth', 'Michael', 'Unicorn']):
+   print(i, name)
+
+# 0 Parth
+# 1 Michael
+# 2 Unicorn
+```
+
+### `zip`
+
+Often, we have two collections which are related to each other by index (i.e., the first elements of the two collections are connected, the second elements are connected, etc.). In these situations, it can be useful to zip the two collections together. The `zip` function generates pairs of entries from its arguments.
+
+For example,
+
+```python
+questions = ['name', 'quest', 'favorite color']
+answers = ['lancelot', 'the holy grail', 'blue']
+
+for q, a in zip(questions, answers):
+   print('What is your {}? It is {}.'.format(q, a))
+
+# What is your name? It is lancelot.
+# What is your quest? It is the holy grail.
+# What is your favorite color? It is blue.
+```
+
+### `sorted`
+
+Any collection that you can iterate through can also be sorted! The `sorted` function will sort the elements of its argument and return a new list that contains those elements in sorted order.
+
+For example, suppose we have a list of fruits. We'd like to eliminate the duplicate elements and hten print them out in alphabetical order. This can be done by converting the list to a `set` and then calling the `sorted` function like so:
+
+```python
+basket = ['apple', 'orange', 'apple', 'pear', 'orange', 'banana']
+
+for fruit in sorted(set(basket)):
+   print(fruit)
+
+# apple
+# banana
+# orange
+# pear
+```
 
 > With love and 🦄s by @psarin and @coopermj
