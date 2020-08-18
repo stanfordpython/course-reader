@@ -423,7 +423,7 @@ Python, however, does not support index-based iteration. Instead, a for loop in 
 
 ```python
 for item in collection:
-    # do something with item
+    ... # do something with item
 ```
 
 Here, `collection` is some collection of objects (like a string (collection of characters) or a list (collection of arbitrary objects)). We'll make this notion more precise later in the course!
@@ -486,7 +486,7 @@ Continuing the indentation paradigm, a while loop in Python generally looks like
 
 ```python
 while condition:
-    # do something
+    ... # do something
 ```
 
 For example, we might print the powers of three under 10,000 with the following code:
