@@ -363,8 +363,8 @@ You can write indices inside the squiggly braces and Python will replace them wi
 You can also provide placeholders and specify their value in the call to `.format`.
 
 ```python
-'{name} loves {food}'.format(name='Michael', food='applesauce')
-# => 'Michael loves applesauce' (he does)
+'{name} loves {food}'.format(name='Michael', food='sno-cones')
+# => 'Michael loves sno-cones' (he does)
 ```
 
 And finally, values passed to `.format` will automatically be converted to strings.
