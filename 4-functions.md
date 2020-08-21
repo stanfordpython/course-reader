@@ -131,9 +131,9 @@ def euclidean_dist(x, y, *, z):
     return math.sqrt(x**2 + y**2 + x**2)
 
 if __name__ == "__main__":
-    euclidean_dist(5, 4, z=3) # A valid call
+    euclidean_dist(5, 4, z=3)     # A valid call
     euclidean_dist(z=3, x=5, y=4) # A valid call
-    euclidean_dist(5, 4, 3) # Invalid call
+    euclidean_dist(5, 4, 3)       # Invalid call
 ```
 
 ## Variadic Arguments
@@ -168,7 +168,7 @@ def favourite_animals(**kwargs):
 
 if __name__ == "__main__":
     favourite_animals(Michael="elephant", Parth="unicorn")  # => Michael's favourite animal is the elephant.
-                  #    Parth's favourite animal is the unicorn.
+                                                            #    Parth's favourite animal is the unicorn.
 ```
 
 ## Argument Defaults
