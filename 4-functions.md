@@ -100,17 +100,15 @@ if __name__ == "__main__":
 
     The below example presents a call to `euclidean_dist` in which we reference the arguments as keyword arguments, rather than positional arguments. You'll observe that we can call the arguments in any order.
 ```python
-if __name__ == "__main__":
-    euclidean_dist(y=4, x=5, z=3)
+euclidean_dist(y=4, x=5, z=3)
 ```
 
 When calling a function, Python enforces that positional arguments must appear in the function call before keyword arguments. In the below example, the first call to `euclidean_dist` is a valid one, whereas the second call is invalid because the keyword argument `x` appears before the positional arguments `y` and `z`. To rectify such a scenario, if we wish to reference `x` by keyword, we must also reference `y` and `z` by keyword, as in the third function call.
 
 ```python
-if __name__ == "__main__":
-    euclidean_dist(3, 4, z=5) # A valid call
-    euclidean_dist(x=5, 4, 3) # An invalid call
-    euclidean_dist(x=5, y=4, z=3) # A valid call
+euclidean_dist(3, 4, z=5)     # A valid call
+euclidean_dist(x=5, 4, 3)     # An invalid call
+euclidean_dist(x=5, y=4, z=3) # A valid call
 ```
 
 ### So, they're the same?
@@ -122,8 +120,8 @@ def euclidean_dist(x, y, /, z):
     return math.sqrt(x**2 + y**2 + x**2)
 
 if __name__ == "__main__":
-    euclidean_dist(5, 4, 3) # A valid call
-    euclidean_dist(5, 4, z=3) # A valid call
+    euclidean_dist(5, 4, 3)       # A valid call
+    euclidean_dist(5, 4, z=3)     # A valid call
     euclidean_dist(x=5, y=4, z=3) # Invalid call
 ```
 
@@ -154,11 +152,9 @@ def greet_all(*names):
         print("Hello {}!".format(name))
 
 if __name__ == "__main__":
-    greet_all("Parth", "Michael", "Sam")
-    # Prints the following:
-    # Hello Parth!
-    # Hello Michael!
-    # Hello Sam!
+    greet_all("Parth", "Michael", "Sam")  # => Hello Parth!
+                                          #    Hello Michael!
+                                          #    Hello Sam!
 ```
 
 ### Variadic Keyword Arguments
@@ -171,10 +167,8 @@ def favourite_animals(**kwargs):
         print("{}'s favourite animal is the {}.".format(name, animal))
 
 if __name__ == "__main__":
-    favourite_animals(Michael="elephant", Parth="unicorn")
-    # Prints the following:
-    # Michael's favourite animal is the elephant.
-    # Parth's favourite animal is the unicorn.
+    favourite_animals(Michael="elephant", Parth="unicorn")  # => Michael's favourite animal is the elephant.
+                  #    Parth's favourite animal is the unicorn.
 ```
 
 ## Argument Defaults
