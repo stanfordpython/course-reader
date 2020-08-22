@@ -4,7 +4,7 @@
 ## Namespaces and Scope
 
 ### Namespaces
-Recall that a _namespace_ is the mechanism by which Python keeps track of which variable names correspond to which objects. Internally, Python keeps a mapping of which names correspond to which object identities (this is backed by a Python dictionary). Function execution creates a new _local symbol table_, a namespace which keeps track of local variables over the execution of the function.
+Recall that a namespace is the mechanism by which Python keeps track of which variable names correspond to which objects. Internally, Python keeps a mapping of which names correspond to which object identities (this is backed by a Python dictionary). Function execution creates a new _local symbol table_, a namespace which keeps track of local variables over the execution of the function.
 
 Variable assignments within a function add to the local symbol table. The local symbol table is garbage collected at the conclusion of function execution, so local variables do not persist beyond the execution of a given function.
 
@@ -31,9 +31,9 @@ At this point, we raise the question: "does Python pass by value, or by referenc
 
 In fact, Python does neither - the best way to think of Python's treatment of function arguments is "pass by object-reference." Before diving into an example, we will first introduce the concept of _immutable_ and _mutable_ objects.
 
-An object is _immutable_ if the object itself cannot be modified. Any change to the object requires the creation of a new object. Integers, for example, are immutable; so if `x` is an integer, taking `x + 1` creates a new integer object equal to `x + 1`. In Python, objects of type `int`, `float`, `long`, `complex`, `str`, and `tuple` are immutable.
+An object is immutable if the object itself cannot be modified. Any change to the object requires the creation of a new object. Integers, for example, are immutable; so if `x` is an integer, taking `x + 1` creates a new integer object equal to `x + 1`. In Python, objects of type `int`, `float`, `long`, `complex`, `str`, and `tuple` are immutable.
 
-A _mutable_ object, on the other hand, is an object which is modifiable. Changes to a mutable object do not require the creation of a new object. Lists, for example, are mutable; if `lst` is a list, taking `lst.append(5)` maintains the original list, but appends the element `5` to the end of the list. In Python, objects of type `list`, `set`, and `dict`, are mutable.
+A mutable object, on the other hand, is an object which is modifiable. Changes to a mutable object do not require the creation of a new object. Lists, for example, are mutable; if `lst` is a list, taking `lst.append(5)` maintains the original list, but appends the element `5` to the end of the list. In Python, objects of type `list`, `set`, and `dict`, are mutable.
 
 #### Immutable Objects as Parameters
 
@@ -44,10 +44,9 @@ def increment(x):
     x = x + 1
     return
 
-if __name__ == "__main__":
-    x = 5
-    increment(x)
-    print(x)
+x = 5
+increment(x)
+print(x)
 ```
 
 What will get printed out? Will it be 6, or 5?
@@ -71,10 +70,9 @@ def append_one(arr):
     arr.append(1)
     return
 
-if __name__ == "__main__":
-    arr = [3, 2]
-    append_one(arr)
-    print(arr)
+arr = [3, 2]
+append_one(arr)
+print(arr)
 ```
 
 This execution begins similarly to the previous example. By the end of the first line of execution, our global namespace includes `{"arr" : [3, 2]}`.
@@ -86,22 +84,28 @@ Therefore, as we finish execution and print `arr`, we print `arr` as it is refer
 ## Arguments
 
 Python functions accept two broad categories of parameters:
-- _Positional Arguments_ - when calling a function, positional arguments are referenced by their _position in the function definition_, and are arguments of the following form. When calling a function, the caller is required to provide all positional arguments to the function.
+- _Positional Arguments_ - when calling a function, positional arguments are referenced by their position in the function definition, and are arguments of the following form. When calling a function, the caller is required to provide all positional arguments to the function.
 
-    As we see in the below example, by calling `euclidean_dist` with arguments in the order `5, 4, 3`, Python maps the arguments to the variables `x, y, z` in `euclidean_dist` definition based on the order of the arguments: so `x` becomes `5` because `5` is the first argument passed in, `y` becomes `4` because `4` is the second argument passed in, and `z` becomes `3` because `3` is the third argument passed in.
+Consider the following example:
+
 ```python
 def euclidean_dist(x, y, z):
     return math.sqrt(x**2 + y**2 + x**2)
 
-if __name__ == "__main__":
-    euclidean_dist(5, 4, 3)
+euclidean_dist(5, 4, 3)
 ```
-- _Keyword Arguments_ - when calling a function, keyword arguments are referenced by _argument name_, and do not need to be provided in a specific order. 
 
-    The below example presents a call to `euclidean_dist` in which we reference the arguments as keyword arguments, rather than positional arguments. You'll observe that we can call the arguments in any order.
+In this example, by calling `euclidean_dist` with arguments in the order `5, 4, 3`, Python maps the arguments to the variables `x, y, z` in `euclidean_dist` definition based on the order of the arguments: so `x` becomes `5` because `5` is the first argument passed in, `y` becomes `4` because `4` is the second argument passed in, and `z` becomes `3` because `3` is the third argument passed in.
+
+- _Keyword Arguments_ - when calling a function, keyword arguments are referenced by argument name, and do not need to be provided in a specific order. 
+
+For example, it is valid to call `euclidean_dist` like this:
+
 ```python
 euclidean_dist(y=4, x=5, z=3)
 ```
+
+In this example, we reference the arguments as keyword arguments, rather than positional arguments. You'll observe that we can call the arguments in any order.
 
 When calling a function, Python enforces that positional arguments must appear in the function call before keyword arguments. In the below example, the first call to `euclidean_dist` is a valid one, whereas the second call is invalid because the keyword argument `x` appears before the positional arguments `y` and `z`. To rectify such a scenario, if we wish to reference `x` by keyword, we must also reference `y` and `z` by keyword, as in the third function call.
 
@@ -111,30 +115,34 @@ euclidean_dist(x=5, 4, 3)     # An invalid call
 euclidean_dist(x=5, y=4, z=3) # A valid call
 ```
 
-### So, they're the same?
+### So, They're the Same?
 
 By looking at the example above, one may assume that positional and keyword arguments are the same - after all, the same function signature and definition was used for both examples. It turns out that there are two additional subcategories of Python arguments which allow for position and keyword arguments to be differentiated in the function definition:
-- _Positional-Only Arguments_ - positional-pnly arguments are listed in the function signature before a `/`, and can only be referenced by their position at call-time. In the example below, we have updated `euclidean_dist` to accept two positional-only arguments, and one positional-or-keyword argument. Here, the first two calls to `euclidean_dist` are valid, whereas the third one is not since in the third call, we are attempting to use keywords to reference the positional-only arguments `x` and `y`.
+- _Positional-Only Arguments_ - positional-pnly arguments are listed in the function signature before a `/`, and can only be referenced by their position at call-time. For example:
+
 ```python
 def euclidean_dist(x, y, /, z):
     return math.sqrt(x**2 + y**2 + x**2)
 
-if __name__ == "__main__":
-    euclidean_dist(5, 4, 3)       # A valid call
-    euclidean_dist(5, 4, z=3)     # A valid call
-    euclidean_dist(x=5, y=4, z=3) # Invalid call
+euclidean_dist(5, 4, 3)       # A valid call
+euclidean_dist(5, 4, z=3)     # A valid call
+euclidean_dist(x=5, y=4, z=3) # Invalid call
 ```
 
-- _Keyword-Only Arguments_ - in the function signature, keyword-only arguments are denoted by following a `*`, and can only be referenced by their name at call-time. We've updated the `euclidean_dist` function in the below example to accept two positional-or-keyword arguments, and one keyword-only argument. Here, the first two calls are valid, since we are referencing the argument `z` by name, rather than by position. The third call, however, is invalid, since when calling `euclidean_dist`, we are referencing `z` by its position in the function signature, rather than by the keyword to which it is bound.
+In this example, we have updated `euclidean_dist` to accept two positional-only arguments, and one positional-or-keyword argument. Here, the first two calls to `euclidean_dist` are valid, whereas the third one is not since in the third call, we are attempting to use keywords to reference the positional-only arguments `x` and `y`.
+
+- _Keyword-Only Arguments_ - in the function signature, keyword-only arguments are denoted by following a `*`, and can only be referenced by their name at call-time. For example:
+
 ```python
 def euclidean_dist(x, y, *, z):
     return math.sqrt(x**2 + y**2 + x**2)
 
-if __name__ == "__main__":
-    euclidean_dist(5, 4, z=3)     # A valid call
-    euclidean_dist(z=3, x=5, y=4) # A valid call
-    euclidean_dist(5, 4, 3)       # Invalid call
+euclidean_dist(5, 4, z=3)     # A valid call
+euclidean_dist(z=3, x=5, y=4) # A valid call
+euclidean_dist(5, 4, 3)       # Invalid call
 ```
+
+Here, we've updated the `euclidean_dist` function in the below example to accept two positional-or-keyword arguments, and one keyword-only argument. Here, the first two calls are valid, since we are referencing the argument `z` by name, rather than by position. The third call, however, is invalid, since when calling `euclidean_dist`, we are referencing `z` by its position in the function signature, rather than by the keyword to which it is bound.
 
 ## Variadic Arguments
 
@@ -151,10 +159,11 @@ def greet_all(*names):
     for name in names:
         print("Hello {}!".format(name))
 
-if __name__ == "__main__":
-    greet_all("Parth", "Michael", "Sam")  # => Hello Parth!
-                                          #    Hello Michael!
-                                          #    Hello Sam!
+greet_all("Parth", "Michael", "Sam")  
+
+# Hello Parth!
+# Hello Michael!
+# Hello Sam!
 ```
 
 ### Variadic Keyword Arguments
@@ -166,15 +175,16 @@ def favourite_animals(**kwargs):
     for name, animal in kwargs.items():
         print("{}'s favourite animal is the {}.".format(name, animal))
 
-if __name__ == "__main__":
-    favourite_animals(Michael="elephant", Parth="unicorn")  # => Michael's favourite animal is the elephant.
-                                                            #    Parth's favourite animal is the unicorn.
+favourite_animals(Michael="elephant", Parth="unicorn")  
+
+# Michael's favourite animal is the elephant.
+# Parth's favourite animal is the unicorn.
 ```
 
 ## Argument Defaults
 Python also permits the function author to set default argument values in the function definition. If an argument without a default value is not provided at call-time, Python will call the function using the argument's default value as the argument. (If the argument is provided, though, Python will call the function using the user-provided argument value).
 
-In an argument signature, _arguments without default values must appear before arguments with default values_. In the below example, the function `euclidean_dist_valid` is a valid implementation of the euclidean distance operation using a default argument value, because arguments with default values follow arguments without default values in the function definition. On the other hand, the `euclidean_dist_invalid` function is not a valid implementation (it would raise a `SyntaxError`), since the arguments `x` and `y`, which do have default values, precede `z`, which does not.
+In an argument signature, arguments without default values must appear before arguments with default values. Here's an example where the first function definition is valid and the second is invalid:
 
 ```python
 def euclidean_dist_valid(x, y=1, z=1):
@@ -184,12 +194,15 @@ def euclidean_dist_invalid(x=5, y=1, z):
     return math.sqrt(x**2, y**2, z**2)
 ```
 
+`euclidean_dist_valid` is a valid implementation of the euclidean distance operation using a default argument value, because arguments with default values follow arguments without default values in the function definition. On the other hand, the `euclidean_dist_invalid` function is not a valid implementation (it would raise a `SyntaxError`), since the arguments `x` and `y`, which do have default values, precede `z`, which does not.
+
 ## Parameter Ordering
 
 We've spoken a lot about ordering in the prior sections - presenting rules such as how positional arguments must appear before keyword arguments, and arguments without default values must appear before arguments with default values - so this section will clarify the ordering of all argument types we have discussed in the prior sections. Below is a Python function signature for a monstrosity of a function which contains at least one of every type of argument we have discussed in the prior sections.
 
 ```python
-def f(a, /, b, c=5, *d, e=2, **f)
+def f(a, /, b, c=5, *d, e=2, **f):
+    pass
 ```
 
 Don't panic! Let's first review the arguments types that appear in this function - they're all argument types which we have previously discussed.
@@ -202,7 +215,7 @@ Don't panic! Let's first review the arguments types that appear in this function
 
 ## Argument Unpacking
 
-We've already seen _argument packing_, in which, through the use of `*args` or `**kwargs`, multiple arguments are gathered together into a tuple or dictionary for the function to use. Similarly, we can perform _argument unpacking_, meaning that we can unpack a tuple or dictionary into a function as if it was a collection of argument or keyword arguments.
+We've already seen argument packing, in which, through the use of `*args` or `**kwargs`, multiple arguments are gathered together into a tuple or dictionary for the function to use. Similarly, we can perform argument unpacking, meaning that we can unpack a tuple or dictionary into a function as if it was a collection of argument or keyword arguments.
 
 Unpacking a tuple into a function follows the convention of capturing positional arguments: the arguments are unpacked into the function call in the order that thy appear in the tuple. Additionally, the argument unpacking notation is the same as the positional argument packing notation (`*`), although we add this notation to the function call, rather than to the function definition. Below, we provide an example of unpacking a tuple into a function call:
 
@@ -210,9 +223,8 @@ Unpacking a tuple into a function follows the convention of capturing positional
 def product_sum(a, b, c):
     return a*(b+c)
 
-if __name__ == "__main__":
-    tup = (3, 4, 5)
-    product_sum(*tup) # Equivalent to product_sum(3, 4, 5)
+tup = (3, 4, 5)
+product_sum(*tup) # Equivalent to product_sum(3, 4, 5)
 ```
 
 Unpacking a dictionary into a function follows the convention of capturing keyword arguments: inside the local symbol table, the key of each dictionary element becomes the argument name, and the value is the value of the argument. Dictionary unpacking uses the same `**` notation as that which is used to capture additional keyword arguments in the function signature. Below, we provide an example of unpacking a dictionary into a function call:
@@ -221,21 +233,20 @@ Unpacking a dictionary into a function follows the convention of capturing keywo
 def favourite_animals(name, animal):
     print("{}'s favourite animal is the {}.".format(name, animal))
 
-if __name__ == "__main__":
-    animals_names = {"name":"Michael", "animal":"elephant"}
-    favourite_animals(**animals_names) # Equivalent to favourite_animals(name="Michael", annimal="elephant")
+animals_names = {"name":"Michael", "animal":"elephant"}
+favourite_animals(**animals_names) # Equivalent to favourite_animals(name="Michael", annimal="elephant")
 ```
 ## First-Class Functions
 
-In Python, the term _First-Class Functions_ refers to the idea that functions - like everything else in Python - are objects, possessing type, identity, and value. In the below example, we create a sample function, then explore some of its properties.
+In Python, the term "First-Class Functions" refers to the idea that functions - like everything else in Python - are objects, possessing type, identity, and value. In the below example, we create a sample function, then explore some of its properties.
 
 ```python
 def f(x):
     return 5
 
-id(f)      # => 4405959984
-type(f)    # => <class 'function'>
-print(f)   # => <function f at 0x1069d9d30>
+id(f)    # => 4405959984
+type(f)  # => <class 'function'>
+print(f) # => <function f at 0x1069d9d30>
 
 isinstance(f, object) # => True
 ```
@@ -246,4 +257,4 @@ Can they be operated on? Passed into other functions as arguments? _Returned_ fr
 
 The next section of the notes - Functional Programming - will explore these questions in greater detail.
 
-> Written with ❤️ and 🐘 by @coopermj.
+> With love and 🦄s by @psarin and @coopermj
