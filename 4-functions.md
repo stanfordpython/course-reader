@@ -202,7 +202,7 @@ We've spoken a lot about ordering in the prior sections - presenting rules such 
 
 ```python
 def f(a, /, b, c=5, *d, e=2, **f):
-    pass
+    ...
 ```
 
 Don't panic! Let's first review the arguments types that appear in this function - they're all argument types which we have previously discussed.
