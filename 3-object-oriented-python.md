@@ -767,4 +767,4 @@ Then, when you need to raise that error, you can just:
 raise BadLoginError("Username: parth, Password: I <3 unicorns")
 ```
 
-> With love and 🦄s by @psarin and @coopermj
+> With love, 🦄s, and 🐘s by the CS41 Staff

@@ -246,4 +246,4 @@ Can they be operated on? Passed into other functions as arguments? _Returned_ fr
 
 The next section of the notes - Functional Programming - will explore these questions in greater detail.
 
-> Written with ❤️ and 🐘 by @coopermj.
+> With love, 🦄s, and 🐘s by the CS41 Staff
