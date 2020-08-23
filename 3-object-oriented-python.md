@@ -69,7 +69,7 @@ except (ValueError, ZeroDivisionError, NameError):
     ...
 ```
 
-This can be useful when there are some errors that you'd like the program to handle but, if an unexpected error is raised, you'd like that error to propogate and cause the program to crash.
+This can be useful when there are some errors that you'd like the program to handle but, if an unexpected error is raised, you'd like that error to propagate and cause the program to crash.
 
 ### Diagnosing Exceptions
 Python exceptions can be printed to the command line with a descriptive message. To do this, use the `as` keyword to store the exception as a variable. Here's what that looks like:
@@ -103,7 +103,7 @@ except:
     print("That didn't work!")
 ```
 
-This is a dangerous paradigm, though, because Python implements several interanal flags as exceptions. For example, you can normally press Control-C to quit a program. In Python, that raises a `KeyboardInterrupt`. However, a `KeyboardInterrupt` will be caught by the `except:` statement. Here's a (fairly artificial) example of how this could be bad:
+This is a dangerous paradigm, though, because Python implements several internal flags as exceptions. For example, you can normally press Control-C to quit a program. In Python, that raises a `KeyboardInterrupt`. However, a `KeyboardInterrupt` will be caught by the `except:` statement. Here's a (fairly artificial) example of how this could be bad:
 
 ```python
 while True:
@@ -124,6 +124,27 @@ Numerator? <i><b>Presses Control-C</b></i>
 That didn't work!
 Numerator? <i><b>Existential dread sets in...</b></i>
 </pre>
+
+### Raising Exceptions
+You can raise your own exceptions with the `raise` keyword. Suppose you want to raise a `NameError`. That can be done with:
+
+```python
+raise NameError
+```
+
+You can also specify an error message by passing an argument to the name of the error. For example, if we raised:
+
+```python
+raise NameError("I don't like that name")
+```
+
+it would look like:
+
+```
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: I don't like that name
+```
 
 ### EAFP Versus LBYL
 One peculiar piece of Python philosophy is that, because Python exceptions are very lightweight, it can be better to trigger an exception and catch it rather than checking to see if your action was valid in the first place.
@@ -306,11 +327,19 @@ This is important! `==` checks equality. It does not check if two objects are th
 ## Classes
 
 ### An Analogy
-Imagine that I, Parth, am going to start a residential construction company that builds houses.
+Imagine that I, Parth, am going to start a residential construction company that builds houses. To do this successfully, I'm going to need to make a blueprint for a house. That blueprint should provide details about the structure of a house. For example, the blueprint might include details about the size of windows and the locking mechanism for the house.
 
-To do this successfully, I'm going to need to make a blueprint for a house. That blueprint should provide details about the structure of a house. For example, the blueprint might include details about the size of windows and the locking mechanism for the house.
+<p align="center">
+  <img height="300" alt="A cartoon man wearing a construction hat and a tool belt with a hammer and screwdriver. To his right, there is a large blue rectangle with the word 'blueprint' in all caps. The blueprint contains an image of a house with two windows, numbered, and a lock on the door that is magnified to the right of the house." src="img/3/parth-blueprint.png" /><br />
+  <i>My blueprint for a house. Illustration by the amazing Medha Sarin.</i>
+</p>
 
 Once I have a blueprint, I can use that blueprint to build multiple houses. Each of those houses will have the same structure, but will function independently – different houses will have different inhabitants. At any given time, one house might be locked while another is unlocked. One house might have open windows while the other has shut windows.
+
+<p align="center">
+  <img height="300" alt="Three houses are depicted, each with two windows and a magnified locking mechanism – the left house has a red lock, the middle house has a green lock, and the right house has a purple lock. To the right of the houses, there is a cartoon man wearing a construction hat and a tool belt with a hammer and screwdriver, holding a blueprint, and looking at the houses." src="img/3/parth-houses.png" /><br />
+  <i>One blueprint can be used to build several houses. Illustration by the amazing Medha Sarin.</i>
+</p>
 
 In this analogy, the blueprint is analogous to a "class object" and the houses are analogous to "instance objects." In Python, we create classes that serve as blueprints for instances. The classes describe how the instances will function, but the instances are independent of one another.
 
@@ -477,73 +506,265 @@ michael.locked # => False
 ```
 
 ### Shared Resources
+Attributes that are declared on the class are shared among all of the instances. This is usually fine when those attributes are immutable (like `num_windows` above) because if an instance tries to update them, it'll create a new object for that instance and change that instance's baggage tag, leaving the class attribute unchanged.
+
+That's not true when the attribute is mutable, however. For example, let's define the following class:
+
+```python
+class Puppy:
+    tricks = []
+
+    def __init__(self, name):
+       self.name = name
+    
+    def learn_trick(self, trick):
+       self.tricks.append(trick)
+```
+
+Note that when the code references `self.tricks`, it actually resolves to the `tricks` variable declared in the first line of the class definition.
+
+What happens when we create multiple puppies and teach one of them a trick? Let's see:
+
+```python
+buddy = Puppy('Buddy')
+astro = Puppy('Astro')
+
+buddy.learn_trick('roll over')
+
+buddy.tricks # => ['roll over']
+astro.tricks # => ['roll over']
+Puppy.tricks # => ['roll over']
+```
+
+Uh oh! That behavior is probably not what we wanted. Let's see what happens if we try to declare `tricks` as an attribute of `self` instead of the class. That is, let's define:
+
+```python
+class Puppy:
+    def __init__(self, name):
+       self.name = name
+       self.tricks = []
+    
+    def learn_trick(self, trick):
+       self.tricks.append(trick)
+```
+
+And, let's execute:
+
+```python
+buddy = Puppy('Buddy')
+astro = Puppy('Astro')
+
+buddy.learn_trick('roll over')
+
+buddy.tricks # => ['roll over']
+astro.tricks # => []
+```
+
+Much better! Each time the `__init__` function is executed, Python creates a new object that is stored in the `tricks` attribute.
+
 ### Magic Methods
+One of the most powerful features of Python is that you can design classes that hook into built-in Python operations like addition. That is, you can define what it means to add two instances of a class.
+
+This is done using the `__add__` function. Let's see it in action by creating a class that represents a point in a 2D plane:
+
+```python
+class Point:
+    def __init__(self, x, y):
+       self.x = x
+       self.y = y
+    
+    def __add__(self, other):
+        return Point(self.x + other.x, self.y + other.y)
+```
+
+Before we unpack what's going on, let's see this in action:
+
+```python
+p1 = Point(3, 5)
+p2 = Point(9, 10)
+
+result = p1 + p2
+
+result.x, result.y # => (12, 15)
+type(result)       # => Point
+```
+
+Wow, pretty neat! We added two points together and got another point as the result. The resulting value also had the appropriate `x` and `y` coordinates.
+
+So, how is this happening? When you add two things together in Python, it actually calls the `__add__` function under the hood. Writing `p1 + p2`, is equivalent to calling `p1.__add__(p2)`. The way we wrote that function, `p1` is `self` and `p2` is `other`. Then, that function returns a new `Point` object whose `x` coordinate is the sum of `self.x` (3) and `other.x` (9) and does the same for `y`.
+
+Python uses a ton of magic methods in everything we've seen so far. Here are some examples from most commonly used at the top to least commonly used at the bottom:
+
+```python
+str(x)  # => x.__str__() 
+
+x == y  # => x.__eq__(y)
+x < y   # => x.__lt__(y)
+x + y   # => x.__add__(y)
+
+len(x)  # => x.__len__()
+el in x # => x.__contains__(el)
+
+iter(x) # => x.__iter__()
+next(x) # => x.__next__()
+```
+
+You can implement any of these methods yourself, in your own classes! For example, our current `Point` class doesn't have an `__str__` method, so trying to print a `Point` can be kind of gross:
+
+```python
+print(p1)
+
+# <Point object at 0x10a103d0>
+```
+
+The hex at the end is the memory address of `p1`. We can make this cleaner by adding an `__str__` method:
+
+```python
+class Point:
+    def __init__(self, x, y):
+       self.x = x
+       self.y = y
+    
+    def __add__(self, other):
+        return Point(self.x + other.x, self.y + other.y)
+    
+    def __str__(self):
+       return f"Point({self.x}, {self.y})"
+```
+
+Now, when we try to print a `Point`, it looks like this:
+
+```python
+p1 = Point(3, 5)
+print(p1)
+
+# Point(3, 5)
+```
+
+Gorgeous!
+
 ### Inheritance
+Finally, classes can "inherit" from one another. This means that a child class will be able to access attributes of its parent class. You specify inheritance by writing the name of the parent class in parentheses:
+
+```python
+class Parent:
+    best_num = 42
+
+class Child(Parent):
+    pass
+```
+
+Now, you can access `best_num` as an attribute of `Child`:
+
+```python
+Child.best_num # => 42
+```
+
+Just like before, these properties also transfer to instances of the child classes:
+
+```python
+x = Child()
+x.best_num # => 42
+```
+
+Additionally, children can override values from their parents:
+
+```python
+class Parent:
+    best_num = 42
+
+class Child(Parent):
+    best_num = 41
+
+Parent.best_num # => 42
+Child.best_num  # => 41
+```
+
+Let's dig into what's going on a bit more. When you reference an attribute on a child class, Python will search upwards through the chain of inheritance and stop once it finds a definition for the value. When `Child` overrides the value of `best_num`, a reference to `Child.best_num` stops at the `Child` level and Python never checks `Parent`.
+
+## Exceptions as Classes
+It turns out that every exception is actually a class! These classes inherit from each other in the structure described below:
 
 ```
 BaseException
-├── SystemExit
-├── KeyboardInterrupt 
-├── GeneratorExit 
-└── Exception
-  ├── StopIteration
-  ├── StopAsyncIteration 
-  ├── ArithmeticError
-  │ ├── FloatingPointError 
-  │ ├── OverflowError
-  │ └── ZeroDivisionError 
-  ├── AssertionError
-  ├── AttributeError
-  ├── BufferError
-  ├── EOFError
-  ├── ImportError
-  │ └── ModuleNotFoundError 
-  ├── LookupError
-  │ ├── IndexError
-  │ └── KeyError
-  ├── MemoryError
-  ├── NameError
-  │ └── UnboundLocalError
-  ├── OSError
-  │ ├── BlockingIOError
-  │ ├── ChildProcessError
-  │ ├── ConnectionError
-  │ │ ├── BrokenPipeError
-  │ │ ├── ConnectionAbortedError 
-  │ │ ├── ConnectionRefusedError
-  │ │ └── ConnectionResetError
-  │ ├── FileExistsError
-  │ ├── FileNotFoundError
-  │ ├── InterruptedError
-  │ ├── IsADirectoryError
-  │ ├── NotADirectoryError
-  │ ├── PermissionError
-  │ ├── ProcessLookupError
-  │ └── TimeoutError
-  ├── ReferenceError
-  ├── RuntimeError
-  │ ├── NotImplementedError
-  │ └── RecursionError
-  ├── SyntaxError
-  │ └── IndentationError
-  │ └── TabError
-  ├── SystemError
-  ├── TypeError
-  ├── ValueError
-  │ └── UnicodeError
-  │ ├── UnicodeDecodeError
-  │ ├── UnicodeEncodeError
-  │ └── UnicodeTranslateError 
-  └─ Warning
-    ├── DeprecationWarning
-    ├── PendingDeprecationWarning 
-    ├── RuntimeWarning
-    ├── SyntaxWarning
-    ├── UserWarning
-    ├── FutureWarning
-    ├── ImportWarning
-    ├── UnicodeWarning
-    ├── BytesWarning
-    └── ResourceWarning
+ ├── SystemExit
+ ├── KeyboardInterrupt
+ ├── GeneratorExit
+ └── Exception
+      ├── StopIteration
+      ├── StopAsyncIteration
+      ├── ArithmeticError
+      │    ├── FloatingPointError
+      │    ├── OverflowError
+      │    └── ZeroDivisionError
+      ├── AssertionError
+      ├── AttributeError
+      ├── BufferError
+      ├── EOFError
+      ├── ImportError
+      │    └── ModuleNotFoundError
+      ├── LookupError
+      │    ├── IndexError
+      │    └── KeyError
+      ├── MemoryError
+      ├── NameError
+      │    └── UnboundLocalError
+      ├── OSError
+      │    ├── BlockingIOError
+      │    ├── ChildProcessError
+      │    ├── ConnectionError
+      │    │    ├── BrokenPipeError
+      │    │    ├── ConnectionAbortedError
+      │    │    ├── ConnectionRefusedError
+      │    │    └── ConnectionResetError
+      │    ├── FileExistsError
+      │    ├── FileNotFoundError
+      │    ├── InterruptedError
+      │    ├── IsADirectoryError
+      │    ├── NotADirectoryError
+      │    ├── PermissionError
+      │    ├── ProcessLookupError
+      │    └── TimeoutError
+      ├── ReferenceError
+      ├── RuntimeError
+      │    ├── NotImplementedError
+      │    └── RecursionError
+      ├── SyntaxError
+      │    └── IndentationError
+      │         └── TabError
+      ├── SystemError
+      ├── TypeError
+      ├── ValueError
+      │    └── UnicodeError
+      │         ├── UnicodeDecodeError
+      │         ├── UnicodeEncodeError
+      │         └── UnicodeTranslateError
+      └── Warning
+           ├── DeprecationWarning
+           ├── PendingDeprecationWarning
+           ├── RuntimeWarning
+           ├── SyntaxWarning
+           ├── UserWarning
+           ├── FutureWarning
+           ├── ImportWarning
+           ├── UnicodeWarning
+           ├── BytesWarning
+           └── ResourceWarning
 ```
-> With love and 🦄s by @psarin and @coopermj
+
+Wow! In practice, it's really good style to create and raise your own, custom exceptions. You can do that using inheritance. Let's say you're making an app where users can log in. You might want to create an error for the situation where the user entered incorrect credentials that's raised during runtime. Here's how you might define that in your module:
+
+```python
+class BadLoginError(RuntimeError):
+    """
+    A user attempted to log in with invalid credentials.
+    """
+```
+
+Then, when you need to raise that error, you can just:
+
+```python
+raise BadLoginError("Username: parth, Password: I <3 unicorns")
+```
+
+> With love, 🦄s, and 🐘s by the CS41 Staff
