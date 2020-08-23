@@ -86,12 +86,12 @@ print("Parth is a {}/{} person.".format(score, score))  # => Parth is a 10/10 pe
 In more advanced cases, arguments in the `format` method can be referenced by placing their location within the curly braces. To revisit our lecture schedule example, we can rewrite it as follows:
 
 ```python
-print("{0} then {1} then {0} then {1} then {0}." % ("Parth", "Michael"))  # => Parth then Michael then Parth then Michael then Parth
+print("{0} then {1} then {0} then {1} then {0}.".format("Parth", "Michael"))  # => Parth then Michael then Parth then Michael then Parth
 ```
 
 The astute reader will also observe that, unlike the `+` operator, the `format` method automatically performs type conversion - we were able to pass in `10` as an integer to the `format` function, and Python automatically converted it to a string during formatting.
 
-If we want to be extra fanct, we can also add names to our parameters, as follows:
+If we want to be extra fancy, we can also add names to our parameters, as follows:
 ```python
 print("{taller} are taller than {shorter}.".format(taller="Elephants", shorter="ants"))  # => Elephants are taller than ants.
 ```
