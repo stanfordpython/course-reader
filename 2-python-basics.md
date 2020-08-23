@@ -45,8 +45,8 @@ print("Elephant brains weigh up to 5.4kg.".strip("Eg.l"))    # => ephant brains 
 Python strings also include find/replace methods. The `find` method takes in a substring and returns the lowest index where the substring is found within the string on which the method was called. The `replace` method takes in an `old` string and a `new` string, and returns a string with all occurrences of the `old` argument replaced by the `new` argument.
 
 ```python
-print("Elephants are the best.".find("are"))                      # => 10
-print("Unicorns are the best.".replace("Unicorns", "Elephants"))  # => Elephants are the best.
+print("Elephants are the best.".find("are"))             # => 10
+print("Mice are the best.".replace("Mice", "Elephants")) # => Elephants are the best.
 ```
 
 ### String Formatting
@@ -60,7 +60,7 @@ score = 10
 print("Parth is a " + str(score) + "/10 person.")  # => Parth is a 10/10 person.
 ```
 
-Pytho also supports C-style string formatting - this is definitely an improvement from using the `+` operator for everything, but can get somewhat unwieldy, especially since, relative to most of the rest of Python, the C-string formatting operators are less human-readable, and less intuitive to many students.
+Python also supports C-style string formatting - this is definitely an improvement from using the `+` operator for everything, but can get somewhat unwieldy, especially since, relative to most of the rest of Python, the C-string formatting operators are less human-readable, and less intuitive to many students.
 
 ```python
 print("Parth is a %d/10 person" % (10))                   # => Parth is a 10/10 person.
