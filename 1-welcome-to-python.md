@@ -1,4 +1,4 @@
-# Python Basics
+# Welcome to Python!
 Welcome to CS 41! In the first two weeks of CS 41, we're going to learn how to "translate" basic programming concepts into Python and learn a bit about Python's philosophy along the way. You should already know words like "variable", "string", and "function" so we won't explain what they are in these notes — instead, we'll focus on how those concepts are represented in Python. 
 
 ## Interactive Interpreter
