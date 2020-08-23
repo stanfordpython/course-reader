@@ -494,4 +494,4 @@ for fruit in sorted(set(basket)):
 # pear
 ```
 
-> With love and 🦄s by @psarin and @coopermj
+> With love, 🦄s, and 🐘s by the CS41 Staff
