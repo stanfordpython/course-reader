@@ -42,6 +42,16 @@ expression_that_prints_something
 # Line 3 of output
 ```
 
+When code is provided that interacts with the user, typed user input should be bolded and italicized. If possible, the input should indicate what the user types but, where necessary, it may be appropriate to type actions that the user performed (like "Presses Control-C"). This can be created in Markdown by using `<pre>`, `<b>`, and `<i>` tags.
+
+For example,
+
+<pre>
+How old are you? <i><b>None of your business!</b></i>
+That's not a valid age: invalid literal for int() with base 10: 'None of your business!'
+How old are you? <i><b>20</b></i>
+</pre>
+
 ## Images
 All images should include alt text and be centered in the screen with a caption. The height should be specified and is generally 350. This can be done in Github with the following HTML code:
 
