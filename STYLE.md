@@ -81,9 +81,5 @@ Think "this is how Python does X" instead of "here's how to do X in Python."
 These notes should be written to be friendly to people using assistive technologies to access the website. In particular, make sure that the notes make sense read aloud. Introduce code blocks and images with signpost language like "The image below depicts..." or "In Python, it's valid to write...".
 
 ## Signature
-When Parth is the primary author of a document, the signature should appear as follows:
-> With ❤️ and 🦄 by @psarin and @cooper-mj
-When Michael is the primary author of a document, the signature should appear as follows:
-> With ❤️ and 🐘 by @cooper-mj and @psarin
-When Parth and Michael are approximately equivalent co-authors of a document, the signature should appear as follows:
-> With ❤️, 🦄, and 🐘 by @cooper-mj and @psarin
+All documents will be signed as
+> With love, 🦄s, and 🐘s by the CS41 Staff
