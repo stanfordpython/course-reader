@@ -69,7 +69,7 @@ except (ValueError, ZeroDivisionError, NameError):
     ...
 ```
 
-This can be useful when there are some errors that you'd like the program to handle but, if an unexpected error is raised, you'd like that error to propogate and cause the program to crash.
+This can be useful when there are some errors that you'd like the program to handle but, if an unexpected error is raised, you'd like that error to propagate and cause the program to crash.
 
 ### Diagnosing Exceptions
 Python exceptions can be printed to the command line with a descriptive message. To do this, use the `as` keyword to store the exception as a variable. Here's what that looks like:
@@ -103,7 +103,7 @@ except:
     print("That didn't work!")
 ```
 
-This is a dangerous paradigm, though, because Python implements several interanal flags as exceptions. For example, you can normally press Control-C to quit a program. In Python, that raises a `KeyboardInterrupt`. However, a `KeyboardInterrupt` will be caught by the `except:` statement. Here's a (fairly artificial) example of how this could be bad:
+This is a dangerous paradigm, though, because Python implements several internal flags as exceptions. For example, you can normally press Control-C to quit a program. In Python, that raises a `KeyboardInterrupt`. However, a `KeyboardInterrupt` will be caught by the `except:` statement. Here's a (fairly artificial) example of how this could be bad:
 
 ```python
 while True:
@@ -477,73 +477,141 @@ michael.locked # => False
 ```
 
 ### Shared Resources
-### Magic Methods
-### Inheritance
+Attributes that are declared on the class are shared among all of the instances. This is usually fine when those attributes are immutable (like `num_windows` above) because if an instance tries to update them, it'll create a new object for that instance and change that instance's baggage tag, leaving the class attribute unchanged.
 
+That's not true when the attribute is mutable, however. For example, let's define the following class:
+
+```python
+class Puppy:
+    tricks = []
+
+    def __init__(self, name):
+       self.name = name
+    
+    def learn_trick(self, trick):
+       self.tricks.append(trick)
 ```
-BaseException
-├── SystemExit
-├── KeyboardInterrupt 
-├── GeneratorExit 
-└── Exception
-  ├── StopIteration
-  ├── StopAsyncIteration 
-  ├── ArithmeticError
-  │ ├── FloatingPointError 
-  │ ├── OverflowError
-  │ └── ZeroDivisionError 
-  ├── AssertionError
-  ├── AttributeError
-  ├── BufferError
-  ├── EOFError
-  ├── ImportError
-  │ └── ModuleNotFoundError 
-  ├── LookupError
-  │ ├── IndexError
-  │ └── KeyError
-  ├── MemoryError
-  ├── NameError
-  │ └── UnboundLocalError
-  ├── OSError
-  │ ├── BlockingIOError
-  │ ├── ChildProcessError
-  │ ├── ConnectionError
-  │ │ ├── BrokenPipeError
-  │ │ ├── ConnectionAbortedError 
-  │ │ ├── ConnectionRefusedError
-  │ │ └── ConnectionResetError
-  │ ├── FileExistsError
-  │ ├── FileNotFoundError
-  │ ├── InterruptedError
-  │ ├── IsADirectoryError
-  │ ├── NotADirectoryError
-  │ ├── PermissionError
-  │ ├── ProcessLookupError
-  │ └── TimeoutError
-  ├── ReferenceError
-  ├── RuntimeError
-  │ ├── NotImplementedError
-  │ └── RecursionError
-  ├── SyntaxError
-  │ └── IndentationError
-  │ └── TabError
-  ├── SystemError
-  ├── TypeError
-  ├── ValueError
-  │ └── UnicodeError
-  │ ├── UnicodeDecodeError
-  │ ├── UnicodeEncodeError
-  │ └── UnicodeTranslateError 
-  └─ Warning
-    ├── DeprecationWarning
-    ├── PendingDeprecationWarning 
-    ├── RuntimeWarning
-    ├── SyntaxWarning
-    ├── UserWarning
-    ├── FutureWarning
-    ├── ImportWarning
-    ├── UnicodeWarning
-    ├── BytesWarning
-    └── ResourceWarning
+
+Note that when the code references `self.tricks`, it actually resolves to the `tricks` variable declared in the first line of the class definition.
+
+What happens when we create multiple puppies and teach one of them a trick? Let's see:
+
+```python
+buddy = Puppy('Buddy')
+astro = Puppy('Astro')
+
+buddy.learn_trick('roll over')
+
+buddy.tricks # => ['roll over']
+astro.tricks # => ['roll over']
+Puppy.tricks # => ['roll over']
 ```
+
+Uh oh! That behavior is probably not what we wanted. Let's see what happens if we try to declare `tricks` as an attribute of `self` instead of the class. That is, let's define:
+
+```python
+class Puppy:
+    def __init__(self, name):
+       self.name = name
+       self.tricks = []
+    
+    def learn_trick(self, trick):
+       self.tricks.append(trick)
+```
+
+And, let's execute:
+
+```python
+buddy = Puppy('Buddy')
+astro = Puppy('Astro')
+
+buddy.learn_trick('roll over')
+
+buddy.tricks # => ['roll over']
+astro.tricks # => []
+```
+
+Much better! Each time the `__init__` function is executed, Python creates a new object that is stored in the `tricks` attribute.
+
+### Magic Methods
+One of the most powerful features of Python is that you can design classes that hook into built-in Python operations like addition. That is, you can define what it means to add two instances of a class.
+
+This is done using the `__add__` function. Let's see it in action by creating a class that represents a point in a 2D plane:
+
+```python
+class Point:
+    def __init__(self, x, y):
+       self.x = x
+       self.y = y
+    
+    def __add__(self, other):
+        return Point(self.x + other.x, self.y + other.y)
+```
+
+Before we unpack what's going on, let's see this in action:
+
+```python
+p1 = Point(3, 5)
+p2 = Point(9, 10)
+
+result = p1 + p2
+
+result.x, result.y # => (12, 15)
+type(result)       # => Point
+```
+
+Wow, pretty neat! We added two points together and got another point as the result. The resulting value also had the appropriate `x` and `y` coordinates.
+
+So, how is this happening? When you add two things together in Python, it actually calls the `__add__` function under the hood. Writing `p1 + p2`, is equivalent to calling `p1.__add__(p2)`. The way we wrote that function, `p1` is `self` and `p2` is `other`. Then, that function returns a new `Point` object whose `x` coordinate is the sum of `self.x` (3) and `other.x` (9) and does the same for `y`.
+
+Python uses a ton of magic methods in everything we've seen so far. Here are some examples from most commonly used at the top to least commonly used at the bottom:
+
+```python
+str(x)  # => x.__str__() 
+
+x == y  # => x.__eq__(y)
+x < y   # => x.__lt__(y)
+x + y   # => x.__add__(y)
+
+len(x)  # => x.__len__()
+el in x # => x.__contains__(el)
+
+iter(x) # => x.__iter__()
+next(x) # => x.__next__()
+```
+
+You can implement any of these methods yourself, in your own classes! For example, our current `Point` class doesn't have an `__str__` method, so trying to print a `Point` can be kind of gross:
+
+```python
+print(p1)
+
+# <Point object at 0x10a103d0>
+```
+
+The hex at the end is the memory address of `p1`. We can make this cleaner by adding an `__str__` method:
+
+```python
+class Point:
+    def __init__(self, x, y):
+       self.x = x
+       self.y = y
+    
+    def __add__(self, other):
+        return Point(self.x + other.x, self.y + other.y)
+    
+    def __str__(self):
+       return f"Point({self.x}, {self.y})"
+```
+
+Now, when we try to print a `Point`, it looks like this:
+
+```python
+p1 = Point(3, 5)
+print(p1)
+
+# Point(3, 5)
+```
+
+Gorgeous!
+
 > With love and 🦄s by @psarin and @coopermj
