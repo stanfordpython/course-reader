@@ -125,6 +125,27 @@ That didn't work!
 Numerator? <i><b>Existential dread sets in...</b></i>
 </pre>
 
+### Raising Exceptions
+You can raise your own exceptions with the `raise` keyword. Suppose you want to raise a `NameError`. That can be done with:
+
+```python
+raise NameError
+```
+
+You can also specify an error message by passing an argument to the name of the error. For example, if we raised:
+
+```python
+raise NameError("I don't like that name")
+```
+
+it would look like:
+
+```
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: I don't like that name
+```
+
 ### EAFP Versus LBYL
 One peculiar piece of Python philosophy is that, because Python exceptions are very lightweight, it can be better to trigger an exception and catch it rather than checking to see if your action was valid in the first place.
 
@@ -306,11 +327,19 @@ This is important! `==` checks equality. It does not check if two objects are th
 ## Classes
 
 ### An Analogy
-Imagine that I, Parth, am going to start a residential construction company that builds houses.
+Imagine that I, Parth, am going to start a residential construction company that builds houses. To do this successfully, I'm going to need to make a blueprint for a house. That blueprint should provide details about the structure of a house. For example, the blueprint might include details about the size of windows and the locking mechanism for the house.
 
-To do this successfully, I'm going to need to make a blueprint for a house. That blueprint should provide details about the structure of a house. For example, the blueprint might include details about the size of windows and the locking mechanism for the house.
+<p align="center">
+  <img height="300" alt="A cartoon man wearing a construction hat and a tool belt with a hammer and screwdriver. To his right, there is a large blue rectangle with the word 'blueprint' in all caps. The blueprint contains an image of a house with two windows, numbered, and a lock on the door that is magnified to the right of the house." src="img/3/parth-blueprint.png" /><br />
+  <i>My blueprint for a house. Illustration by the amazing Medha Sarin.</i>
+</p>
 
 Once I have a blueprint, I can use that blueprint to build multiple houses. Each of those houses will have the same structure, but will function independently – different houses will have different inhabitants. At any given time, one house might be locked while another is unlocked. One house might have open windows while the other has shut windows.
+
+<p align="center">
+  <img height="300" alt="Three houses are depicted, each with two windows and a magnified locking mechanism – the left house has a red lock, the middle house has a green lock, and the right house has a purple lock. To the right of the houses, there is a cartoon man wearing a construction hat and a tool belt with a hammer and screwdriver, holding a blueprint, and looking at the houses." src="img/3/parth-houses.png" /><br />
+  <i>One blueprint can be used to build several houses. Illustration by the amazing Medha Sarin.</i>
+</p>
 
 In this analogy, the blueprint is analogous to a "class object" and the houses are analogous to "instance objects." In Python, we create classes that serve as blueprints for instances. The classes describe how the instances will function, but the instances are independent of one another.
 
@@ -613,5 +642,129 @@ print(p1)
 ```
 
 Gorgeous!
+
+### Inheritance
+Finally, classes can "inherit" from one another. This means that a child class will be able to access attributes of its parent class. You specify inheritance by writing the name of the parent class in parentheses:
+
+```python
+class Parent:
+    best_num = 42
+
+class Child(Parent):
+    pass
+```
+
+Now, you can access `best_num` as an attribute of `Child`:
+
+```python
+Child.best_num # => 42
+```
+
+Just like before, these properties also transfer to instances of the child classes:
+
+```python
+x = Child()
+x.best_num # => 42
+```
+
+Additionally, children can override values from their parents:
+
+```python
+class Parent:
+    best_num = 42
+
+class Child(Parent):
+    best_num = 41
+
+Parent.best_num # => 42
+Child.best_num  # => 41
+```
+
+Let's dig into what's going on a bit more. When you reference an attribute on a child class, Python will search upwards through the chain of inheritance and stop once it finds a definition for the value. When `Child` overrides the value of `best_num`, a reference to `Child.best_num` stops at the `Child` level and Python never checks `Parent`.
+
+## Exceptions as Classes
+It turns out that every exception is actually a class! These classes inherit from each other in the structure described below:
+
+```
+BaseException
+ ├── SystemExit
+ ├── KeyboardInterrupt
+ ├── GeneratorExit
+ └── Exception
+      ├── StopIteration
+      ├── StopAsyncIteration
+      ├── ArithmeticError
+      │    ├── FloatingPointError
+      │    ├── OverflowError
+      │    └── ZeroDivisionError
+      ├── AssertionError
+      ├── AttributeError
+      ├── BufferError
+      ├── EOFError
+      ├── ImportError
+      │    └── ModuleNotFoundError
+      ├── LookupError
+      │    ├── IndexError
+      │    └── KeyError
+      ├── MemoryError
+      ├── NameError
+      │    └── UnboundLocalError
+      ├── OSError
+      │    ├── BlockingIOError
+      │    ├── ChildProcessError
+      │    ├── ConnectionError
+      │    │    ├── BrokenPipeError
+      │    │    ├── ConnectionAbortedError
+      │    │    ├── ConnectionRefusedError
+      │    │    └── ConnectionResetError
+      │    ├── FileExistsError
+      │    ├── FileNotFoundError
+      │    ├── InterruptedError
+      │    ├── IsADirectoryError
+      │    ├── NotADirectoryError
+      │    ├── PermissionError
+      │    ├── ProcessLookupError
+      │    └── TimeoutError
+      ├── ReferenceError
+      ├── RuntimeError
+      │    ├── NotImplementedError
+      │    └── RecursionError
+      ├── SyntaxError
+      │    └── IndentationError
+      │         └── TabError
+      ├── SystemError
+      ├── TypeError
+      ├── ValueError
+      │    └── UnicodeError
+      │         ├── UnicodeDecodeError
+      │         ├── UnicodeEncodeError
+      │         └── UnicodeTranslateError
+      └── Warning
+           ├── DeprecationWarning
+           ├── PendingDeprecationWarning
+           ├── RuntimeWarning
+           ├── SyntaxWarning
+           ├── UserWarning
+           ├── FutureWarning
+           ├── ImportWarning
+           ├── UnicodeWarning
+           ├── BytesWarning
+           └── ResourceWarning
+```
+
+Wow! In practice, it's really good style to create and raise your own, custom exceptions. You can do that using inheritance. Let's say you're making an app where users can log in. You might want to create an error for the situation where the user entered incorrect credentials that's raised during runtime. Here's how you might define that in your module:
+
+```python
+class BadLoginError(RuntimeError):
+    """
+    A user attempted to log in with invalid credentials.
+    """
+```
+
+Then, when you need to raise that error, you can just:
+
+```python
+raise BadLoginError("Username: parth, Password: I <3 unicorns")
+```
 
 > With love and 🦄s by @psarin and @coopermj
