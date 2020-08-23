@@ -58,7 +58,7 @@ When possible, try to avoid addressing the reader using the "you" pronoun unless
 One exception is that, because this is a course about Python, we're often suggesting best practices. In these cases it's okay to use language like "You'll rarely encounter this ..." but it's still generally better to rephrase these sentences like "This concept is rarely used in production ..."
 
 ## Terms and Definitions
-When introducing new terms and definitions for the first time, they are to be written _in italics_ so that the student is aware that a new term is being introduced and defined.
+When introducing new terms and definitions for the first time, they are to be written "in quotes" so that the student is aware that a new term is being introduced and defined.
 
 ## Philosophy
 These notes are not a guide on how to use Python so they should generally avoid walking the reader through an implementation. That will happen in class. Instead, these notes will should explain Python's language design and philosophy.
