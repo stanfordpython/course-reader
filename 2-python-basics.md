@@ -313,4 +313,4 @@ math.cos(math.pi)  # => -1.0
 
 Here, observe that we use the same `import` statement as we used to import the `hello.py` file. Notably, unlike with the `hello.py` example, the directory in which we run this import statement is irrelevant - since the `math` module is built in to Python, Python will handle the file path automatically to bring us the `math` module when we import it.
 
-> With love and 🐘s by @coopermj and @psarin
+> With ❤️ and 🐘s by @coopermj and @psarin
