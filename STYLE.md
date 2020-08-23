@@ -18,28 +18,24 @@ many_types = ["a", 2, 3, [4, 5]]
 ```
 
 ## Code Output
-The output of code should be denoted with the implication sign after a comment so that the code is valid Python. The hash sign should be separated from the end of the line with a single space unless the expression is part of a longer block in which case the hash signs for each line should be aligned so that the longest expression is separated from the hash sign by one space.
+The output of code should be denoted with the implication sign after a comment so that the code is valid Python. The hash sign should be separated from the end of the line two single spaces unless the expression is part of a longer block in which case the hash signs for each line should be aligned so that the longest expression is separated from the hash sign by two spaces. The implication sign should be separated from the hash sign by one single space.
 
 For example,
 
 ```python
 expression # => return_val
 
-expression             # => return_val
-longer_expression      # => long_return_val
-really_long_expression # => really_long_return_val
+expression              # => return_val
+longer_expression       # => long_return_val
+really_long_expression  # => really_long_return_val
 ```
 
-When an expression will result in printed terminal output, this should be written after the expression and a blank line. Each line of output should be commented out with the hash sign at the beginning of the line, a space, and then the terminal output. The implication sign should not be included.
-
-For example
+When an expression will result in printed terminal output, this should be written using the syntax above, with the console (`>`) sign in place of the implication sign. If output takes place over multiple lines, the console sign should appear _on the first line only_, and spacing should indicate that subsequent lines are printed from the same expression, as below:
 
 ```python
-expression_that_prints_something
-
-# Line 1 of output
-# Line 2 of output
-# Line 3 of output
+exp_multiline_output()  # > Line 1 of output
+                        #   Line 2 of output
+                        #   Line 3 of output
 ```
 
 ## Images
