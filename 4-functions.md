@@ -225,25 +225,5 @@ if __name__ == "__main__":
     animals_names = {"name":"Michael", "animal":"elephant"}
     favourite_animals(**animals_names) # Equivalent to favourite_animals(name="Michael", annimal="elephant")
 ```
-## First-Class Functions
-
-In Python, the term _First-Class Functions_ refers to the idea that functions - like everything else in Python - are objects, possessing type, identity, and value. In the below example, we create a sample function, then explore some of its properties.
-
-```python
-def f(x):
-    return 5
-
-id(f)      # => 4405959984
-type(f)    # => <class 'function'>
-print(f)   # => <function f at 0x1069d9d30>
-
-isinstance(f, object) # => True
-```
-
-This raises some exciting questions, namely, if functions are objects, what can be done with these objects?
-
-Can they be operated on? Passed into other functions as arguments? _Returned_ from functions?
-
-The next section of the notes - Functional Programming - will explore these questions in greater detail.
 
 > With love, 🦄s, and 🐘s by the CS41 Staff
