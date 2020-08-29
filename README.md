@@ -7,6 +7,8 @@
 2. [Data Structures](2-data-structures.md)
 3. [Object-Oriented Python](3-object-oriented-python.md)
 4. [Functions](4-functions.md)
+5. [Functional Programming](5-functional-programming.md)
+6. [Python and the Web](6-python-and-the-web.md)
 
 **Note**: Within each file, the code is meant to be read from top to bottom, where each code block is a continuation of the previous. In particular, code blocks may refer to variables defined in earlier code blocks.
 
