@@ -593,7 +593,7 @@ result.x, result.y # => (12, 15)
 type(result)       # => Point
 ```
 
-Wow, pretty neat! We added two points together and got another point as the result. The resulting value also had the appropriate `x` and `y` coordinates.
+Wow, pretty neat! We added two `Point` objects together and got another `Point` as the result. The resulting value also had the appropriate `x` and `y` coordinates.
 
 So, how is this happening? When you add two things together in Python, it actually calls the `__add__` function under the hood. Writing `p1 + p2`, is equivalent to calling `p1.__add__(p2)`. The way we wrote that function, `p1` is `self` and `p2` is `other`. Then, that function returns a new `Point` object whose `x` coordinate is the sum of `self.x` (3) and `other.x` (9) and does the same for `y`.
 
