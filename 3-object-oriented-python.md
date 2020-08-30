@@ -613,6 +613,8 @@ iter(x) # => x.__iter__()
 next(x) # => x.__next__()
 ```
 
+You'll notice that each of these methods starts and ends with two underscores. These are also called "dunder" methods — Python frequently uses methods that are named like this for interacting with built-in operations.
+
 You can implement any of these methods yourself, in your own classes! For example, our current `Point` class doesn't have an `__str__` method, so trying to print a `Point` can be kind of gross:
 
 ```python
