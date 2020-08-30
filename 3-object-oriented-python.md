@@ -773,4 +773,45 @@ Then, when you need to raise that error, you can just:
 raise BadLoginError("Username: parth, Password: I <3 unicorns")
 ```
 
+Since these are classes, you can customize these exceptions! For example, we could add to the `BadLoginError` so that it stores the username and password:
+
+```python
+class BadLoginError(RuntimeError):
+    """
+    A user attempted to log in with invalid credentials.
+    """
+    def __init__(self, user, pwd, msg):
+        self.user = user
+        self.pwd = pwd
+        self.msg = msg
+
+    def __str__(self):
+        return self.msg
+```
+
+This way, you might raise:
+
+```python
+raise BadLoginError("parth", "I <3 unicorns", "Incorrect username and/or password.")
+```
+
+If that error propogates, it'll display as:
+
+```
+BadLoginError: Incorrect username and/or password.
+```
+
+But, if it's caught, the application can access the user and password. You might use this to notify the user that someone is trying to get into their account, like so:
+
+```python
+try:
+    login()
+except BadLoginError as e:
+    username = e.user
+    if username_exists(username):
+        notify_user(username)
+```
+
+When you design exceptions, you should think primarily about someone who might catch those exceptions: what might they need in order to diagnose the error?
+
 > With love, 🦄s, and 🐘s by the CS41 Staff
