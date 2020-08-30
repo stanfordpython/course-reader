@@ -538,7 +538,9 @@ astro.tricks # => ['roll over']
 Puppy.tricks # => ['roll over']
 ```
 
-Uh oh! That behavior is probably not what we wanted. Let's see what happens if we try to declare `tricks` as an attribute of `self` instead of the class. That is, let's define:
+Uh oh! That behavior is probably not what we wanted. It's happening because `tricks` is declared at the class level, so all instances share a reference to one `tricks` object.
+
+Let's see what happens if we try to declare `tricks` as an attribute of `self` instead of the class. That is, let's define:
 
 ```python
 class Puppy:
