@@ -653,40 +653,40 @@ Gorgeous!
 Finally, classes can "inherit" from one another. This means that a child class will be able to access attributes of its parent class. You specify inheritance by writing the name of the parent class in parentheses:
 
 ```python
-class Parent:
-    best_num = 42
+class EnglishSpeaker:
+    greeting = "Hello!"
 
-class Child(Parent):
+class American(EnglishSpeaker):
     pass
 ```
 
-Now, you can access `best_num` as an attribute of `Child`:
+Now, you can access `greeting` as an attribute of `American`:
 
 ```python
-Child.best_num # => 42
+American.greeting # => 'Hello!'
 ```
 
 Just like before, these properties also transfer to instances of the child classes:
 
 ```python
-x = Child()
-x.best_num # => 42
+parth = American()
+parth.greeting # => 'Hello!'
 ```
 
 Additionally, children can override values from their parents:
 
 ```python
-class Parent:
-    best_num = 42
+class EnglishSpeaker:
+    greeting = "Hello!"
 
-class Child(Parent):
-    best_num = 41
+class Canadian(EnglishSpeaker):
+    greeting = "Sooory!"
 
-Parent.best_num # => 42
-Child.best_num  # => 41
+EnglishSpeaker.greeting # => 'Hello!'
+Canadian.greeting       # => 'Sooory!'
 ```
 
-Let's dig into what's going on a bit more. When you reference an attribute on a child class, Python will search upwards through the chain of inheritance and stop once it finds a definition for the value. When `Child` overrides the value of `best_num`, a reference to `Child.best_num` stops at the `Child` level and Python never checks `Parent`.
+Let's dig into what's going on a bit more. When you reference an attribute on a child class, Python will search upwards through the chain of inheritance and stop once it finds a definition for the value. When `Canadian` overrides the value of `greeting`, a reference to `Canadian.greeting` stops at the `Canadian` level and Python never checks `EnglishSpeaker`.
 
 ## Exceptions as Classes
 It turns out that every exception is actually a class! These classes inherit from each other in the structure described below:
