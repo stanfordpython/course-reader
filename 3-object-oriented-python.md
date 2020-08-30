@@ -440,6 +440,8 @@ s.__super_secret_answer              # AttributeError
 s._SecretKeeper__super_secret_answer # => 41
 ```
 
+> Adding two underscores "mangles" the name by adding the name of the class before the name of the attribute, but it won't obfuscate it any further.
+
 ### Methods vs. Functions
 We swept something under the rug earlier that we're going to tease apart now. Earlier, we saw how to create a custom constructor in the `House` object like so:
 
