@@ -10,6 +10,7 @@
 * `keras` ([documentation](https://keras.io/api/))
 * `nltk` ([documentation](https://www.nltk.org))
 * `cvxpy` ([documentation](https://www.cvxpy.org))
+* `pandas` ([documentation](https://pandas.pydata.org/docs/))
 
 ## Python & The Web
 * `django` ([documentation](https://docs.djangoproject.com/en/3.1/))
