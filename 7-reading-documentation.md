@@ -95,4 +95,31 @@ A description of the method and its parameters.
 
 If a class has an attribute that has its own attributes, the indentation can continue further.
 
+# List of Useful Third Party Packages
+
+Below, we've compiled a list of third party packages that we've found useful, along with a brief description of each and the link to the documentation. Hopefully you'll find these packages helpful in your Python projects!
+
+## Numerical Computing, Machine Learning
+* `numpy` ([documentation](https://numpy.org/doc/)) - `numpy` provides a series of numerical computing tools. `numpy` provides an n-dimensional array object, as well as (fast) linear-algebraic operations on `numpy` arrays, statistical operations, and random simulation.
+* `scipy` ([documentation](https://docs.scipy.org/doc/scipy/reference/)) - `scipy` also provides numerical computing tools, specifically, it contains function implementations for numerical integration, interpolation, optimization, linear algebra, and statistics.
+* `matplotlib` ([documentation](https://matplotlib.org/contents.html)) - `matplotlib` provides tools for the easy creation of data plots in Python.
+* `tensorflow` ([documentation](https://www.tensorflow.org/guide)) - `tensorflow` is Google's open-source machine learning package. It contains tools to easily create, train, and test machine learning models.
+* `pytorch` ([documentation](https://pytorch.org/docs/stable/index.html)) - `pytorch` is another open-source machine learning package, primarily designed for deep learning. It's similar to `tenosrflow` in that it provides tools to create, train, and test machine learning models.
+* `scikit-learn` ([documentation](https://scikit-learn.org/stable/user_guide.html)) - `scikit-learn` is (yet another) machine learning package. It provides out-of-the-box implementations of classical machine learning models (KNN, SVM, random forest, etc.) as well as a multi-layered perceptron for regression and classification tasks.
+* `keras` ([documentation](https://keras.io/api/)) - `keras` is a deep learning package built on top of `tensorflow`, that makes it easier to design and train deep learning models.
+* `nltk` ([documentation](https://www.nltk.org)) - `nltk` is a natural language processing package, which provides access to lexicons and corpora, as well as libraries for classification, tokenization, parsing, and other tasks.
+* `cvxpy` ([documentation](https://www.cvxpy.org)) - `cvxpy` is the Boyd Lab's convex optimization package, which implements standard optimization algorithms to automatically optimize convex problems.
+* `pandas` ([documentation](https://pandas.pydata.org/docs/)) - `pandas` is a data manipulation library. Through its `DataFrame` class, it allows for the easy processing, reading/writing, and transformation of various types of data.
+
+## Python & The Web
+* `django` ([documentation](https://docs.djangoproject.com/en/3.1/)) - `django` is an industrial-strength framework in Python for building web applications.
+* `beautifulsoup` ([documentation](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)) - `BeautifulSoup` is an HTML-parsing library in Python for web scraping.
+
+## Cryptography
+* `pyca`/`cryptography` ([documentation](https://cryptography.io/en/latest/)) - `pyca`/`cryptography` is a package which provides an interface to cryptographic function implementations, such as symmetric ciphers, message digests, and key derivation functions.
+
+## Game Programming
+* `pygame` ([documentation](https://www.pygame.org/docs/)) - `pygame` is a collection of modules which enable developers to write video games in Python.
+
+
 > With love, 🦄s, and 🐘s by the CS41 Staff
