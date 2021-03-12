@@ -30,16 +30,12 @@ longer_expression      # => long_return_val
 really_long_expression # => really_long_return_val
 ```
 
-When an expression will result in printed terminal output, this should be written after the expression and a blank line. Each line of output should be commented out with the hash sign at the beginning of the line, a space, and then the terminal output. The implication sign should not be included.
-
-For example
+When an expression will result in printed terminal output, this should be written using the syntax above, with the console (`>`) sign in place of the implication sign. If output takes place over multiple lines, the console sign should appear _on the first line only_, and spacing should indicate that subsequent lines are printed from the same expression, as below:
 
 ```python
-expression_that_prints_something
-
-# Line 1 of output
-# Line 2 of output
-# Line 3 of output
+exp_multiline_output()  # > Line 1 of output
+                        #   Line 2 of output
+                        #   Line 3 of output
 ```
 
 When code is provided that interacts with the user, typed user input should be bolded and italicized. If possible, the input should indicate what the user types but, where necessary, it may be appropriate to type actions that the user performed (like "Presses Control-C"). This can be created in Markdown by using `<pre>`, `<b>`, and `<i>` tags.
