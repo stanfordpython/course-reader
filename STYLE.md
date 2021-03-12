@@ -52,6 +52,18 @@ That's not a valid age: invalid literal for int() with base 10: 'None of your bu
 How old are you? <i><b>20</b></i>
 </pre>
 
+## Filenames
+
+When indicating code that is written in a `.py` file, the following lines should appear at the top of the code block; the separating `-`s should reach exactly to the end of the `.py` extension in the filename, as below.
+```python
+# /usr/bin/env python3
+
+'''
+File: filename.py
+-----------------
+'''
+```
+
 ## Images
 All images should include alt text and be centered in the screen with a caption. The height should be specified and is generally 350. This can be done in Github with the following HTML code:
 
@@ -78,3 +90,6 @@ Think "this is how Python does X" instead of "here's how to do X in Python."
 ## Accessibility
 These notes should be written to be friendly to people using assistive technologies to access the website. In particular, make sure that the notes make sense read aloud. Introduce code blocks and images with signpost language like "The image below depicts..." or "In Python, it's valid to write...".
 
+## Signature
+All documents will be signed as
+> With love, 🦄s, and 🐘s by the CS41 Staff
